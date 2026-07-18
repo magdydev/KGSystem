@@ -1,0 +1,41 @@
+<form #yearForm="ngForm" (ngSubmit)="save()">
+  <div style="display:flex;flex-direction:column;gap:1rem">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="code">{{ 'REFERENCE.ACADEMIC_YEARS.CODE' | translate }}</label>
+        <input id="code" name="code" type="text" [(ngModel)]="code" required class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="nameAr">{{ 'REFERENCE.ACADEMIC_YEARS.NAME_AR' | translate }}</label>
+        <input id="nameAr" name="nameAr" type="text" [(ngModel)]="nameAr" required class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="nameEn">{{ 'REFERENCE.ACADEMIC_YEARS.NAME_EN' | translate }}</label>
+        <input id="nameEn" name="nameEn" type="text" [(ngModel)]="nameEn" required class="form-control" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="startDate">{{ 'REFERENCE.ACADEMIC_YEARS.START_DATE' | translate }}</label>
+        <app-date-input id="startDate" name="startDate" [(ngModel)]="startDate" [required]="true"></app-date-input>
+      </div>
+      <div class="form-group">
+        <label for="endDate">{{ 'REFERENCE.ACADEMIC_YEARS.END_DATE' | translate }}</label>
+        <app-date-input id="endDate" name="endDate" [(ngModel)]="endDate" [required]="true"></app-date-input>
+      </div>
+    </div>
+
+    <div class="form-group" style="flex-direction:row;align-items:center;gap:0.5rem">
+      <input id="isActive" name="isActive" type="checkbox" [(ngModel)]="isActive" style="width:auto" />
+      <label for="isActive">{{ 'REFERENCE.ACADEMIC_YEARS.IS_ACTIVE' | translate }}</label>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="yearForm.invalid || saving()">
+        {{ (saving() ? 'COMMON.SAVING' : 'REFERENCE.ACADEMIC_YEARS.SAVE') | translate }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">{{ 'REFERENCE.ACADEMIC_YEARS.CANCEL' | translate }}</button>
+    </div>
+  </div>
+</form>

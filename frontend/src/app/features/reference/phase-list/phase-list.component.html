@@ -1,0 +1,55 @@
+<div class="page phase-list">
+  <div class="page-header">
+    <h1 class="page-title">{{ 'REFERENCE.PHASES.TITLE' | translate }}</h1>
+    <button class="btn btn-primary" (click)="openAdd()">
+      <span class="material-symbols-outlined">add</span>
+      {{ 'REFERENCE.PHASES.ADD' | translate }}
+    </button>
+  </div>
+
+  <div class="card">
+    @if (phases$ | async; as phases) {
+      @if (phases.length > 0) {
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{{ 'REFERENCE.PHASES.CODE' | translate }}</th>
+              <th>{{ 'REFERENCE.PHASES.NAME_AR' | translate }}</th>
+              <th>{{ 'REFERENCE.PHASES.NAME_EN' | translate }}</th>
+              <th>{{ 'REFERENCE.PHASES.SORT_ORDER' | translate }}</th>
+              <th>{{ 'COMMON.ACTIONS' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (phase of phases; track phase.id) {
+              <tr>
+                <td>{{ phase.code }}</td>
+                <td>{{ phase.nameAr }}</td>
+                <td>{{ phase.nameEn }}</td>
+                <td>{{ phase.sortOrder }}</td>
+                <td class="actions-cell">
+                  <button class="btn btn-sm" (click)="openEdit(phase)">
+                    <span class="material-symbols-outlined" style="font-size:16px">edit</span>
+                  </button>
+                  <button class="btn btn-sm btn-danger" (click)="deletePhase(phase.id)">
+                    <span class="material-symbols-outlined" style="font-size:16px">delete</span>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <p class="empty">{{ 'REFERENCE.PHASES.EMPTY' | translate }}</p>
+      }
+    } @else {
+      <p class="loading">{{ 'REFERENCE.PHASES.LOADING' | translate }}</p>
+    }
+  </div>
+</div>
+
+<app-modal [(open)]="modalOpen" [title]="modalTitle | translate">
+  @if (modalOpen()) {
+    <app-phase-form [editPhase]="editPhase()" (saved)="onSaved()" (cancelled)="modalOpen.set(false)"></app-phase-form>
+  }
+</app-modal>

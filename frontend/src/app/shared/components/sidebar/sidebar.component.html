@@ -1,0 +1,17 @@
+<nav class="sidebar">
+  <ul class="nav-list">
+    @for (item of visibleItems(); track item.route) {
+      <li>
+        <a
+          class="nav-link"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' }"
+        >
+          <span class="material-symbols-outlined nav-icon">{{ item.icon }}</span>
+          <span class="nav-label">{{ item.label | translate }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+</nav>

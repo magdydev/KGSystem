@@ -1,0 +1,30 @@
+.attendance-list {
+  .controls {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+
+    .date-picker {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  select,
+  input:not([type='date']) {
+    width: 100%;
+  }
+
+  select {
+    min-width: 130px;
+  }
+}

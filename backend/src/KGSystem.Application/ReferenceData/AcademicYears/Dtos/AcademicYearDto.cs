@@ -1,0 +1,12 @@
+namespace KGSystem.Application.ReferenceData.AcademicYears.Dtos;
+
+public sealed record AcademicYearDto
+{
+    public Guid Id { get; init; }
+    public string Code { get; init; } = string.Empty;
+    public string NameAr { get; init; } = string.Empty;
+    public string NameEn { get; init; } = string.Empty;
+    public DateTime StartDate { get; init; }
+    public DateTime EndDate { get; init; }
+    public bool IsActive { get; init; }
+}

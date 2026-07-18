@@ -1,0 +1,88 @@
+<form #f="ngForm" (ngSubmit)="save()">
+  <div class="form-group">
+    <label>{{ 'PAYMENTS.CHILD_NAME' | translate }}</label>
+    <input class="form-control" type="text" [ngModel]="childNameDisplay" (ngModelChange)="onSearchInput($event)" name="childSearch"
+      placeholder="{{ 'PAYMENTS.SEARCH_CHILD' | translate }}" autocomplete="off" />
+    @if (showChildDropdown) {
+      <ul class="dropdown">
+        @for (child of searchResults$ | async; track child.id) {
+          <li (click)="selectChild(child)" class="dropdown-item">
+            {{ child.fullNameAr }} / {{ child.fullNameEn }}
+          </li>
+        }
+      </ul>
+    }
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>{{ 'PAYMENTS.MONTH' | translate }}</label>
+      <select class="form-control" [(ngModel)]="month" name="month" required>
+        @for (m of months; track m) {
+          <option [ngValue]="m">{{ m }}</option>
+        }
+      </select>
+    </div>
+    <div class="form-group">
+      <label>{{ 'PAYMENTS.YEAR' | translate }}</label>
+      <input class="form-control" type="number" [(ngModel)]="year" name="year" required min="2000" max="2100" />
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>{{ 'PAYMENTS.AMOUNT_DUE' | translate }}</label>
+      <input class="form-control" type="number" [(ngModel)]="amountDue" name="amountDue" required min="0" step="0.01" />
+    </div>
+    <div class="form-group">
+      <label>{{ 'PAYMENTS.AMOUNT_PAID' | translate }}</label>
+      <input class="form-control" type="number" [(ngModel)]="amountPaid" name="amountPaid" min="0" step="0.01" />
+    </div>
+    <div class="form-group">
+      <label>{{ 'PAYMENTS.DISCOUNT' | translate }}</label>
+      <input class="form-control" type="number" [(ngModel)]="discount" name="discount" min="0" step="0.01" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <strong>{{ 'PAYMENTS.REMAINING' | translate }}: {{ remaining | currency:'EGP' }}</strong>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>{{ 'PAYMENTS.DUE_DATE' | translate }}</label>
+      <app-date-input [(ngModel)]="dueDate" name="dueDate" [required]="true"></app-date-input>
+    </div>
+    <div class="form-group">
+      <label>{{ 'PAYMENTS.PAID_DATE' | translate }}</label>
+      <app-date-input [(ngModel)]="paidDate" name="paidDate"></app-date-input>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>{{ 'PAYMENTS.METHOD' | translate }}</label>
+      <select class="form-control" [(ngModel)]="method" name="method">
+        @for (m of methods; track m) {
+          <option [ngValue]="m">{{ 'PAYMENTS.METHOD_' + m | translate }}</option>
+        }
+      </select>
+    </div>
+    <div class="form-group">
+      <label>{{ 'PAYMENTS.RECEIVED_BY' | translate }}</label>
+      <input class="form-control" type="text" [(ngModel)]="receivedBy" name="receivedBy" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>{{ 'PAYMENTS.NOTES' | translate }}</label>
+    <textarea class="form-control" [(ngModel)]="notes" name="notes" rows="3"></textarea>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary" [disabled]="saving()">
+      {{ (saving() ? 'COMMON.SAVING' : 'COMMON.SAVE') | translate }}
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="cancel()">{{ 'COMMON.CANCEL' | translate }}</button>
+  </div>
+</form>

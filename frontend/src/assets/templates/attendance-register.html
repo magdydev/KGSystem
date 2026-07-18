@@ -1,0 +1,54 @@
+<div dir="rtl" style="font-family:Arial,sans-serif;background:#fff;color:#222;width:1100px;margin:0 auto;padding:12mm">
+<style>
+.header{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #2846c7;padding:10px 0}
+.logo{font-size:36px;font-weight:bold;color:#2846c7}
+.sub{color:#6d4ae6;font-size:14px}
+.title{text-align:center;font-size:28px;color:#2846c7;font-weight:bold}
+.info{display:flex;gap:10px;justify-content:space-between;margin:15px 0}
+.card{flex:1;border:1px solid #d6d9ef;border-radius:8px;padding:8px;background:#f7f8ff}
+.card b{display:block;color:#2846c7}
+table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:10px}
+th,td{border:1px solid #ccd2ea;padding:2px;text-align:center}
+thead th{background:#2846c7;color:#fff}
+tbody tr:nth-child(even){background:#f8f9ff}
+.name{width:140px;font-weight:bold;text-align:right;font-size:9px}
+.no{width:28px}
+.day{width:22px}
+.present{color:#1a8f2d;font-weight:bold}
+.absent{color:#d32f2f;font-weight:bold}
+.excused{color:#1565c0;font-weight:bold}
+.footer{display:flex;justify-content:space-around;margin-top:30px}
+.sign{width:250px;text-align:center}
+.line{border-top:1px solid #444;margin-top:50px;padding-top:5px}
+</style>
+
+<div class="header">
+<div>
+<div class="logo">مجدي تك</div>
+<div class="sub">حلول تقنية المعلومات والتحول الرقمي</div>
+</div>
+<div style="text-align:center">
+<div class="title">سجل الحضور الشهري</div>
+<div style="font-size:20px;font-weight:bold;color:#6d4ae6;margin-top:6px">{{APP_NAME_AR}}</div>
+<div style="font-size:15px;color:#666">{{APP_NAME_EN}}</div>
+</div>
+</div>
+
+<div class="info">
+<div class="card"><b>الشهر</b> {{MONTH_NAME}} {{YEAR}}</div>
+<div class="card"><b>المرحلة</b> {{PHASE_NAME}}</div>
+<div class="card"><b>عدد الأطفال</b> {{CHILD_COUNT}}</div>
+<div class="card"><b>تاريخ التقرير</b> {{REPORT_DATE}}</div>
+</div>
+
+<table>
+<thead><tr><th class="no">م</th><th class="name">اسم الطفل</th>{{DAY_HEADERS}}</tr></thead>
+<tbody>{{TABLE_ROWS}}</tbody>
+</table>
+
+<div class="footer">
+<div class="sign"><div class="line">توقيع المعلمة</div></div>
+<div class="sign"><div class="line">توقيع المديرة</div></div>
+<div class="sign"><div class="line">الختم</div></div>
+</div>
+</div>

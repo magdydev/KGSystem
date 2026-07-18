@@ -1,0 +1,75 @@
+<div class="page child-list">
+  <div class="page-header">
+    <h1 class="page-title">{{ 'CHILDREN.TITLE' | translate }}</h1>
+    <button class="btn btn-primary" (click)="openAdd()">
+      <span class="material-symbols-outlined">add</span>
+      {{ 'CHILDREN.NEW' | translate }}
+    </button>
+  </div>
+
+  <div class="filters">
+    <input class="form-control" type="text" [ngModel]="searchTerm" (ngModelChange)="searchTerm = $event; onSearch()"
+      placeholder="{{ 'COMMON.SEARCH' | translate }}" style="width:240px" />
+    <select class="form-control" [ngModel]="selectedStatus" (ngModelChange)="selectedStatus = $event; onStatusChange()" style="width:auto">
+      <option value="">{{ 'COMMON.ALL_STATUSES' | translate }}</option>
+      @for (s of statusOptions; track s) {
+        <option [value]="s">{{ 'STATUS.' + (s | uppercase) | translate }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="card">
+    @if (loading()) {
+      <div class="loading">{{ 'COMMON.LOADING' | translate }}...</div>
+    } @else if (children().length === 0) {
+      <div class="empty">{{ 'COMMON.NO_DATA' | translate }}</div>
+    } @else {
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{ 'CHILDREN.NAME' | translate }}</th>
+            <th>{{ 'CHILDREN.DATE_OF_BIRTH' | translate }}</th>
+            <th>{{ 'CHILDREN.GENDER' | translate }}</th>
+            <th>{{ 'CHILDREN.STATUS' | translate }}</th>
+            <th>{{ 'COMMON.ACTIONS' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (child of children(); track child.id) {
+            <tr>
+              <td><span style="font-weight:500">{{ child.fullNameAr }} - {{ child.fullNameEn }}</span></td>
+              <td>{{ child.dateOfBirth | date }}</td>
+              <td>{{ child.gender }}</td>
+              <td>
+                <span class="badge" [class.badge-success]="(child.status | uppercase) === 'ACTIVE'" [class.badge-danger]="(child.status | uppercase) === 'INACTIVE'">
+                  {{ 'STATUS.' + (child.status | uppercase) | translate }}
+                </span>
+              </td>
+              <td class="actions-cell">
+                <button class="btn btn-sm" (click)="openView(child.id)">
+                  <span class="material-symbols-outlined" style="font-size:16px">visibility</span>
+                </button>
+                <button class="btn btn-sm" (click)="openEdit(child)">
+                  <span class="material-symbols-outlined" style="font-size:16px">edit</span>
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="deleteChild(child.id)">
+                  <span class="material-symbols-outlined" style="font-size:16px">delete</span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
+
+<app-modal [(open)]="formModalOpen" [title]="((editChild() ? 'CHILDREN.EDIT' : 'CHILDREN.NEW') | translate)" [width]="'640px'">
+  <app-child-form [editChild]="editChild()" (saved)="onFormSaved()" (cancelled)="formModalOpen.set(false)"></app-child-form>
+</app-modal>
+
+<app-modal [(open)]="detailModalOpen" [title]="('CHILDREN.DETAIL' | translate)" [width]="'800px'">
+  @if (viewChildId()) {
+    <app-child-detail [childId]="viewChildId()" (close)="detailModalOpen.set(false)"></app-child-detail>
+  }
+</app-modal>

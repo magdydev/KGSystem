@@ -1,0 +1,75 @@
+<div class="page payment-list">
+  <div class="page-header">
+    <h1 class="page-title">{{ 'PAYMENTS.TITLE' | translate }}</h1>
+    <button class="btn btn-primary" (click)="openAdd()">
+      <span class="material-symbols-outlined">add</span>
+      {{ 'COMMON.ADD' | translate }}
+    </button>
+  </div>
+
+  <div class="filters">
+    <select class="form-control" [ngModel]="monthFilter()" (ngModelChange)="monthFilter.set($event); onFilterChange()" style="width:auto">
+      <option [ngValue]="null">{{ 'COMMON.ALL_MONTHS' | translate }}</option>
+      @for (m of months; track m) {
+        <option [ngValue]="m">{{ m }}</option>
+      }
+    </select>
+
+    <input class="form-control" type="number" [ngModel]="yearFilter()" (ngModelChange)="yearFilter.set($event); onFilterChange()"
+      placeholder="{{ 'COMMON.YEAR' | translate }}" min="2000" max="2100" style="width:100px" />
+
+    <select class="form-control" [ngModel]="statusFilter()" (ngModelChange)="statusFilter.set($event); onFilterChange()" style="width:auto">
+      <option [ngValue]="null">{{ 'COMMON.ALL_STATUSES' | translate }}</option>
+      @for (s of statuses; track s) {
+        <option [ngValue]="s">{{ 'PAYMENTS.STATUS_' + s | translate }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="card">
+    @if (payments$ | async; as payments) {
+      @if (payments.length > 0) {
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{{ 'PAYMENTS.CHILD_NAME' | translate }}</th>
+              <th>{{ 'PAYMENTS.MONTH_YEAR' | translate }}</th>
+              <th>{{ 'PAYMENTS.AMOUNT_DUE' | translate }}</th>
+              <th>{{ 'PAYMENTS.AMOUNT_PAID' | translate }}</th>
+              <th>{{ 'PAYMENTS.REMAINING' | translate }}</th>
+              <th>{{ 'PAYMENTS.STATUS' | translate }}</th>
+              <th>{{ 'PAYMENTS.PAID_DATE' | translate }}</th>
+              <th>{{ 'COMMON.ACTIONS' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of payments; track p.id) {
+              <tr>
+                <td>{{ p.childNameAr }} / {{ p.childNameEn }}</td>
+                <td>{{ p.month + '/' + p.year }}</td>
+                <td>{{ p.amountDue | currency:'EGP' }}</td>
+                <td>{{ p.amountPaid | currency:'EGP' }}</td>
+                <td>{{ p.remaining | currency:'EGP' }}</td>
+                <td><span class="badge {{ 'badge-' + (p.status | lowercase) }}">{{ 'PAYMENTS.STATUS_' + (p.status | uppercase) | translate }}</span></td>
+                <td>{{ p.paidDate | date }}</td>
+                <td class="actions-cell">
+                  <button class="btn btn-sm" (click)="openEdit(p)">
+                    <span class="material-symbols-outlined" style="font-size:16px">edit</span>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <p class="empty">{{ 'PAYMENTS.EMPTY' | translate }}</p>
+      }
+    } @else {
+      <p class="loading">{{ 'PAYMENTS.LOADING' | translate }}</p>
+    }
+  </div>
+</div>
+
+<app-modal [(open)]="modalOpen" [title]="((editPayment() ? 'PAYMENTS.EDIT_TITLE' : 'PAYMENTS.ADD_TITLE') | translate)" [width]="'640px'">
+  <app-payment-form [editPayment]="editPayment()" (saved)="onSaved()" (cancelled)="modalOpen.set(false)"></app-payment-form>
+</app-modal>

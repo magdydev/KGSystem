@@ -1,0 +1,66 @@
+<div class="page academic-year-list">
+  <div class="page-header">
+    <h1 class="page-title">{{ 'REFERENCE.ACADEMIC_YEARS.TITLE' | translate }}</h1>
+    <button class="btn btn-primary" (click)="openAdd()">
+      <span class="material-symbols-outlined">add</span>
+      {{ 'REFERENCE.ACADEMIC_YEARS.ADD' | translate }}
+    </button>
+  </div>
+
+  <div class="card">
+    @if (academicYears$ | async; as years) {
+      @if (years.length > 0) {
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{{ 'REFERENCE.ACADEMIC_YEARS.CODE' | translate }}</th>
+              <th>{{ 'REFERENCE.ACADEMIC_YEARS.NAME_AR' | translate }}</th>
+              <th>{{ 'REFERENCE.ACADEMIC_YEARS.NAME_EN' | translate }}</th>
+              <th>{{ 'REFERENCE.ACADEMIC_YEARS.START_DATE' | translate }}</th>
+              <th>{{ 'REFERENCE.ACADEMIC_YEARS.END_DATE' | translate }}</th>
+              <th>{{ 'REFERENCE.ACADEMIC_YEARS.STATUS' | translate }}</th>
+              <th>{{ 'COMMON.ACTIONS' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (year of years; track year.id) {
+              <tr>
+                <td>{{ year.code }}</td>
+                <td>{{ year.nameAr }}</td>
+                <td>{{ year.nameEn }}</td>
+                <td>{{ year.startDate | date }}</td>
+                <td>{{ year.endDate | date }}</td>
+                <td>
+                  <span class="badge" [class.badge-success]="year.isActive" [class.badge-danger]="!year.isActive">
+                    {{ (year.isActive ? 'REFERENCE.ACADEMIC_YEARS.ACTIVE' : 'REFERENCE.ACADEMIC_YEARS.INACTIVE') | translate }}
+                  </span>
+                </td>
+                <td class="actions-cell">
+                  <button class="btn btn-sm" (click)="openEdit(year)">
+                    <span class="material-symbols-outlined" style="font-size:16px">edit</span>
+                  </button>
+                  <button class="btn btn-sm" (click)="toggleActive(year)">
+                    {{ (year.isActive ? 'REFERENCE.ACADEMIC_YEARS.DEACTIVATE' : 'REFERENCE.ACADEMIC_YEARS.ACTIVATE') | translate }}
+                  </button>
+                  <button class="btn btn-sm btn-danger" (click)="deleteAcademicYear(year.id)">
+                    <span class="material-symbols-outlined" style="font-size:16px">delete</span>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <p class="empty">{{ 'REFERENCE.ACADEMIC_YEARS.EMPTY' | translate }}</p>
+      }
+    } @else {
+      <p class="loading">{{ 'REFERENCE.ACADEMIC_YEARS.LOADING' | translate }}</p>
+    }
+  </div>
+</div>
+
+<app-modal [(open)]="modalOpen" [title]="modalTitle | translate">
+  @if (modalOpen()) {
+    <app-academic-year-form [editYear]="editYear()" (saved)="onSaved()" (cancelled)="modalOpen.set(false)"></app-academic-year-form>
+  }
+</app-modal>

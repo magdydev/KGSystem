@@ -1,0 +1,40 @@
+<div class="page product-list">
+  <div class="page-header">
+    <h1 class="page-title">{{ 'PRODUCTS.TITLE' | translate }}</h1>
+  </div>
+
+  <div class="card">
+    @if (products$ | async; as products) {
+      @if (products.length > 0) {
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{{ 'PRODUCTS.NAME' | translate }}</th>
+              <th>{{ 'PRODUCTS.SKU' | translate }}</th>
+              <th>{{ 'PRODUCTS.PRICE' | translate }}</th>
+              <th>{{ 'COMMON.ACTIONS' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (product of products; track product.id) {
+              <tr>
+                <td style="font-weight:500">{{ product.name }}</td>
+                <td>{{ product.sku }}</td>
+                <td>{{ product.price | currency: product.currency }}</td>
+                <td class="actions-cell">
+                  <button class="btn btn-sm" (click)="editProduct(product)">
+                    <span class="material-symbols-outlined" style="font-size:16px">edit</span>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <p class="empty">{{ 'PRODUCTS.EMPTY' | translate }}</p>
+      }
+    } @else {
+      <p class="loading">{{ 'PRODUCTS.LOADING' | translate }}</p>
+    }
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="page monthly-fee-list">
+  <div class="page-header">
+    <h1 class="page-title">{{ 'REFERENCE.MONTHLY_FEES.TITLE' | translate }}</h1>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
+      <label for="yearSelect" style="white-space:nowrap">{{ 'REFERENCE.MONTHLY_FEES.ACADEMIC_YEAR' | translate }}:</label>
+      <select id="yearSelect" [ngModel]="selectedYearId()" (ngModelChange)="onYearChange($event)" class="form-control" style="max-width:300px">
+        <option value="">{{ 'REFERENCE.MONTHLY_FEES.SELECT_YEAR' | translate }}</option>
+        @for (y of academicYears$ | async; track y.id) {
+          <option [value]="y.id">{{ y.nameAr || y.nameEn }}</option>
+        }
+      </select>
+    </div>
+
+    @if (loading()) {
+      <p class="loading">{{ 'REFERENCE.MONTHLY_FEES.LOADING' | translate }}</p>
+    } @else if (selectedYearId() && rows.length > 0) {
+      <form #feesForm="ngForm">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{{ 'REFERENCE.MONTHLY_FEES.MONTH' | translate }}</th>
+              <th>{{ 'REFERENCE.MONTHLY_FEES.FEE_AMOUNT' | translate }}</th>
+              <th>{{ 'REFERENCE.MONTHLY_FEES.DUE_DATE' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of rows; track row.month; let i = $index) {
+              <tr>
+                <td>{{ 'MONTHS.' + row.month | translate }}</td>
+                <td>
+                  <input [name]="'amount_' + i" type="number" [(ngModel)]="row.amount" required min="0" step="0.01" class="form-control" style="width:120px" />
+                </td>
+                <td>
+                  <app-date-input [name]="'dueDate_' + i" [ngModel]="row.dueDate" (ngModelChange)="row.dueDate = $event" style="width:160px;display:inline-block" />
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <div class="form-actions" style="margin-top:1rem">
+          <button type="button" class="btn btn-primary" (click)="save()" [disabled]="feesForm.invalid || saving()">
+            {{ (saving() ? 'COMMON.SAVING' : 'COMMON.SAVE') | translate }}
+          </button>
+        </div>
+      </form>
+    }
+  </div>
+</div>

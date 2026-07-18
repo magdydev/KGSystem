@@ -1,0 +1,99 @@
+<form #childForm="ngForm" (ngSubmit)="save()">
+  <div style="display:flex;flex-direction:column;gap:1rem">
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'CHILDREN.FIRST_NAME' | translate }} (AR)</label>
+        <input class="form-control" name="firstNameAr" [(ngModel)]="formData.firstNameAr" required />
+      </div>
+      <div class="form-group">
+        <label>{{ 'CHILDREN.FIRST_NAME' | translate }} (EN)</label>
+        <input class="form-control" name="firstNameEn" [(ngModel)]="formData.firstNameEn" required />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'CHILDREN.LAST_NAME' | translate }} (AR)</label>
+        <input class="form-control" name="lastNameAr" [(ngModel)]="formData.lastNameAr" required />
+      </div>
+      <div class="form-group">
+        <label>{{ 'CHILDREN.LAST_NAME' | translate }} (EN)</label>
+        <input class="form-control" name="lastNameEn" [(ngModel)]="formData.lastNameEn" required />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'CHILDREN.GENDER' | translate }}</label>
+        <select class="form-control" name="gender" [(ngModel)]="formData.gender">
+          <option value="Male">{{ 'CHILDREN.MALE' | translate }}</option>
+          <option value="Female">{{ 'CHILDREN.FEMALE' | translate }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>{{ 'CHILDREN.BIRTH_DATE' | translate }}</label>
+        <app-date-input name="dateOfBirth" [(ngModel)]="formData.dateOfBirth" [required]="true"></app-date-input>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'CHILDREN.PHASE' | translate }}</label>
+        <select class="form-control" name="kgPhaseId" [(ngModel)]="formData.kgPhaseId">
+          <option value="">{{ 'COMMON.SELECT' | translate }}</option>
+          @for (p of phases$ | async; track p.id) {
+            <option [value]="p.id">{{ p.nameAr || p.nameEn }}</option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label>{{ 'CHILDREN.ACADEMIC_YEAR' | translate }}</label>
+        <select class="form-control" name="academicYearId" [(ngModel)]="formData.academicYearId">
+          <option value="">{{ 'COMMON.SELECT' | translate }}</option>
+          @for (y of academicYears$ | async; track y.id) {
+            <option [value]="y.id">{{ y.nameAr || y.nameEn }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'CHILDREN.GUARDIAN_NAME' | translate }} (AR)</label>
+        <input class="form-control" name="guardianNameAr" [(ngModel)]="formData.guardianNameAr" />
+      </div>
+      <div class="form-group">
+        <label>{{ 'CHILDREN.GUARDIAN_NAME' | translate }} (EN)</label>
+        <input class="form-control" name="guardianNameEn" [(ngModel)]="formData.guardianNameEn" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'CHILDREN.GUARDIAN_PHONE' | translate }}</label>
+        <input class="form-control" name="guardianPhone" [(ngModel)]="formData.guardianPhone" />
+      </div>
+      <div class="form-group">
+        <label>{{ 'CHILDREN.GUARDIAN_EMAIL' | translate }}</label>
+        <input class="form-control" type="email" name="guardianEmail" [(ngModel)]="formData.guardianEmail" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{ 'CHILDREN.ADDRESS' | translate }}</label>
+      <textarea class="form-control" name="address" [(ngModel)]="formData.address" rows="2"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>{{ 'CHILDREN.NATIONALITY' | translate }}</label>
+      <input class="form-control" name="nationality" [(ngModel)]="formData.nationality" />
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="cancel()">{{ 'COMMON.CANCEL' | translate }}</button>
+      <button type="submit" class="btn btn-primary" [disabled]="childForm.invalid || saving()">
+        {{ (saving() ? 'COMMON.SAVING' : (editChild() ? 'COMMON.SAVE' : 'COMMON.CREATE')) | translate }}
+      </button>
+    </div>
+  </div>
+</form>

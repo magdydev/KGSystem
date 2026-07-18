@@ -1,0 +1,125 @@
+<div class="page dashboard">
+  <div class="page-header">
+    <h1 class="page-title">{{ 'DASHBOARD.TITLE' | translate }}</h1>
+  </div>
+
+  @if (summary$ | async; as data) {
+    <div class="stat-grid">
+      <div class="stat-card stat-card--students">
+        <span class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </span>
+        <div class="stat-body">
+          <span class="stat-value">{{ data.totalStudents }}</span>
+          <span class="stat-label">{{ 'DASHBOARD.TOTAL_STUDENTS' | translate }}</span>
+        </div>
+      </div>
+      <div class="stat-card stat-card--active">
+        <span class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </span>
+        <div class="stat-body">
+          <span class="stat-value">{{ data.activeStudents }}</span>
+          <span class="stat-label">{{ 'DASHBOARD.ACTIVE_STUDENTS' | translate }}</span>
+        </div>
+      </div>
+      <div class="stat-card stat-card--absent">
+        <span class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        </span>
+        <div class="stat-body">
+          <span class="stat-value">{{ data.dailyAbsentCount }}</span>
+          <span class="stat-label">{{ 'DASHBOARD.ABSENT_TODAY' | translate }}</span>
+        </div>
+      </div>
+      <div class="stat-card stat-card--rate">
+        <span class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+        </span>
+        <div class="stat-body">
+          <span class="stat-value">{{ data.absentRate }}%</span>
+          <span class="stat-label">{{ 'DASHBOARD.ABSENT_RATE' | translate }}</span>
+        </div>
+      </div>
+      <div class="stat-card stat-card--income-daily">
+        <span class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </span>
+        <div class="stat-body">
+          <span class="stat-value">{{ data.dailyIncome | currency: 'EGP' }}</span>
+          <span class="stat-label">{{ 'DASHBOARD.DAILY_INCOME' | translate }}</span>
+        </div>
+      </div>
+      <div class="stat-card stat-card--income-monthly">
+        <span class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </span>
+        <div class="stat-body">
+          <span class="stat-value">{{ data.monthlyIncome | currency: 'EGP' }}</span>
+          <span class="stat-label">{{ 'DASHBOARD.MONTHLY_INCOME' | translate }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h2>{{ 'DASHBOARD.PENDING_PAYMENTS' | translate }}</h2>
+        <p class="pending-amount">{{ data.pendingPaymentsAmount | currency: 'EGP' }}</p>
+        <p class="pending-count">{{ data.pendingPaymentsCount }} {{ 'DASHBOARD.PAYMENTS_PENDING' | translate }}</p>
+      </div>
+
+      <div class="detail-card">
+        <h2>{{ 'DASHBOARD.RECENT_PAYMENTS' | translate }}</h2>
+        @if (data.recentPayments.length > 0) {
+          <ul class="payment-list">
+            @for (payment of data.recentPayments; track payment.id) {
+              <li>
+                <span class="child-name">{{ childName(payment) }}</span>
+                <span class="payment-amount">{{ payment.amount | currency: 'EGP' }}</span>
+                <span class="badge" [class.badge-success]="payment.status === 'PAID'" [class.badge-warning]="payment.status === 'PENDING'" [class.badge-danger]="payment.status === 'OVERDUE'">{{ 'PAYMENTS.STATUS_' + (payment.status | uppercase) | translate }}</span>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty">{{ 'DASHBOARD.NO_RECENT_PAYMENTS' | translate }}</p>
+        }
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h2>{{ 'DASHBOARD.PHASE_DISTRIBUTION' | translate }}</h2>
+        @if (data.phaseDistribution.length > 0) {
+          <ul class="distribution-list">
+            @for (phase of data.phaseDistribution; track $index) {
+              <li>
+                <span class="dist-label">{{ phaseName(phase) }}</span>
+                <span class="dist-value">{{ phase.studentCount }}</span>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty">{{ 'DASHBOARD.NO_DATA' | translate }}</p>
+        }
+      </div>
+
+      <div class="detail-card">
+        <h2>{{ 'DASHBOARD.PAYMENT_STATUS' | translate }}</h2>
+        @if (data.paymentStatusDistribution.length > 0) {
+          <ul class="distribution-list">
+            @for (item of data.paymentStatusDistribution; track $index) {
+              <li>
+                <span class="dist-label">{{ 'PAYMENTS.STATUS_' + (item.status | uppercase) | translate }}</span>
+                <span class="dist-value">{{ item.count }} ({{ item.amount | currency: 'EGP' }})</span>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty">{{ 'DASHBOARD.NO_DATA' | translate }}</p>
+        }
+      </div>
+    </div>
+  } @else {
+    <p class="loading">{{ 'DASHBOARD.LOADING' | translate }}</p>
+  }
+</div>

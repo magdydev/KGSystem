@@ -1,0 +1,43 @@
+<form #feesForm="ngForm" (ngSubmit)="save()">
+  @if (loading()) {
+    <p>{{ 'REFERENCE.MONTHLY_FEES.LOADING' | translate }}</p>
+  } @else {
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{{ 'REFERENCE.MONTHLY_FEES.MONTH' | translate }}</th>
+              <th>{{ 'REFERENCE.MONTHLY_FEES.FEE_AMOUNT' | translate }}</th>
+              <th>{{ 'REFERENCE.MONTHLY_FEES.CURRENCY' | translate }}</th>
+              <th>{{ 'REFERENCE.MONTHLY_FEES.DUE_DATE' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of rows; track row.month; let i = $index) {
+              <tr>
+                <td>{{ 'MONTHS.' + row.month | translate }}</td>
+                <td>
+                  <input [name]="'amount_' + i" type="number" [(ngModel)]="row.amount" required min="0" step="0.01" class="form-control" style="width:120px" />
+                </td>
+                <td>
+                  <input [name]="'currency_' + i" type="text" [(ngModel)]="row.currency" required maxlength="3" class="form-control" style="width:80px" />
+                </td>
+                <td>
+                  <app-date-input [ngModel]="row.dueDate" (ngModelChange)="row.dueDate = $event" />
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="feesForm.invalid || saving()">
+          {{ (saving() ? 'COMMON.SAVING' : 'REFERENCE.MONTHLY_FEES.SAVE') | translate }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">{{ 'REFERENCE.MONTHLY_FEES.CANCEL' | translate }}</button>
+      </div>
+    </div>
+  }
+</form>

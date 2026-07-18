@@ -1,0 +1,141 @@
+@if (loading()) {
+  <div class="loading">{{ 'CHILDREN.LOADING' | translate }}</div>
+}
+@if (childDetail(); as child) {
+  <div class="card info-card">
+    <div class="info-header" style="margin-bottom:1.25rem">
+      <h2 style="margin:0;font-size:var(--text-lg);font-weight:600">{{ child.fullNameAr }} — {{ child.fullNameEn }}</h2>
+    </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="info-label">{{ 'CHILDREN.DATE_OF_BIRTH' | translate }}</span>
+        <span class="info-value">{{ child.dateOfBirth | date: 'mediumDate' }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">{{ 'CHILDREN.GENDER' | translate }}</span>
+        <span class="info-value">{{ child.gender }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">{{ 'CHILDREN.GUARDIAN_NAME' | translate }} (AR)</span>
+        <span class="info-value">{{ child.guardianNameAr }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">{{ 'CHILDREN.GUARDIAN_NAME' | translate }} (EN)</span>
+        <span class="info-value">{{ child.guardianNameEn }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">{{ 'CHILDREN.GUARDIAN_PHONE' | translate }}</span>
+        <span class="info-value">{{ child.guardianPhone }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">{{ 'CHILDREN.GUARDIAN_EMAIL' | translate }}</span>
+        <span class="info-value">{{ child.guardianEmail || '—' }}</span>
+      </div>
+      <div class="info-item full-width">
+        <span class="info-label">{{ 'CHILDREN.ADDRESS' | translate }}</span>
+        <span class="info-value">{{ child.address || '—' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card tabs" style="margin-top:1rem">
+    <nav class="tab-nav">
+      <button class="tab-btn" [class.active]="activeTab() === 'enrollments'" (click)="setActiveTab('enrollments')">
+        {{ 'CHILDREN.ENROLLMENTS' | translate }}
+      </button>
+      <button class="tab-btn" [class.active]="activeTab() === 'payments'" (click)="setActiveTab('payments')">
+        {{ 'CHILDREN.PAYMENTS' | translate }}
+      </button>
+      <button class="tab-btn" [class.active]="activeTab() === 'attendance'" (click)="setActiveTab('attendance')">
+        {{ 'CHILDREN.ATTENDANCE' | translate }}
+      </button>
+    </nav>
+
+    <div class="tab-content">
+      @if (activeTab() === 'enrollments') {
+        @if (child.enrollments.length === 0) {
+          <p class="tab-empty">{{ 'CHILDREN.NO_ENROLLMENTS' | translate }}</p>
+        } @else {
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{{ 'CHILDREN.PHASE' | translate }}</th>
+                <th>{{ 'CHILDREN.ACADEMIC_YEAR' | translate }}</th>
+                <th>{{ 'CHILDREN.ENROLLMENT_DATE' | translate }}</th>
+                <th>{{ 'CHILDREN.STATUS' | translate }}</th>
+                <th>{{ 'CHILDREN.NOTES' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (enrollment of child.enrollments; track enrollment.id) {
+                <tr>
+                  <td>{{ enrollment.kgPhaseNameAr }} - {{ enrollment.kgPhaseNameEn }}</td>
+                  <td>{{ enrollment.academicYearNameAr }} - {{ enrollment.academicYearNameEn }}</td>
+                  <td>{{ enrollment.enrollmentDate | date: 'mediumDate' }}</td>
+                  <td><span class="badge badge-info">{{ enrollment.status }}</span></td>
+                  <td>{{ enrollment.notes || '—' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      }
+
+      @if (activeTab() === 'payments') {
+        @if (payments().length === 0) {
+          <p class="tab-empty">{{ 'CHILDREN.NO_PAYMENTS' | translate }}</p>
+        } @else {
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{{ 'CHILDREN.MONTH_YEAR' | translate }}</th>
+                <th>{{ 'CHILDREN.AMOUNT_DUE' | translate }}</th>
+                <th>{{ 'CHILDREN.AMOUNT_PAID' | translate }}</th>
+                <th>{{ 'CHILDREN.REMAINING' | translate }}</th>
+                <th>{{ 'CHILDREN.STATUS' | translate }}</th>
+                <th>{{ 'CHILDREN.NOTES' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (payment of payments(); track payment.id) {
+                <tr>
+                  <td>{{ payment.month }}/{{ payment.year }}</td>
+                  <td>{{ payment.amountDue }}</td>
+                  <td>{{ payment.amountPaid }}</td>
+                  <td>{{ payment.remaining }}</td>
+                  <td><span class="badge badge-info">{{ payment.status }}</span></td>
+                  <td>{{ payment.notes || '—' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      }
+
+      @if (activeTab() === 'attendance') {
+        @if (attendance().length === 0) {
+          <p class="tab-empty">{{ 'CHILDREN.NO_ATTENDANCE' | translate }}</p>
+        } @else {
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{{ 'CHILDREN.DATE' | translate }}</th>
+                <th>{{ 'CHILDREN.STATUS' | translate }}</th>
+                <th>{{ 'CHILDREN.NOTES' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (record of attendance(); track record.id) {
+                <tr>
+                  <td>{{ record.date | date: 'mediumDate' }}</td>
+                  <td><span class="badge badge-info">{{ record.status }}</span></td>
+                  <td>{{ record.notes || '—' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      }
+    </div>
+  </div>
+}

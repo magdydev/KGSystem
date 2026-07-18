@@ -1,0 +1,34 @@
+<header class="app-header">
+  <div class="brand">
+    @if (logoSrc(); as src) {
+      <img [src]="src" alt="" width="32" height="32" />
+    }
+    <span class="brand-name">{{ languageService.currentLang() === 'ar' ? brandingService.branding().appNameAr : brandingService.branding().appName }}</span>
+  </div>
+
+  <div class="header-end">
+    @if (authService.isLoggedIn()) {
+      <div class="user-info">
+        <span class="user-email">{{ authService.userEmail() }}</span>
+        @for (role of authService.userRoles(); track role) {
+          <span class="role-badge">{{ 'ROLES.' + role | translate }}</span>
+        }
+      </div>
+    }
+
+    <div class="language-switcher" role="group" [attr.aria-label]="'LANGUAGE.SWITCH' | translate">
+      <button type="button" [class.active]="languageService.currentLang() === 'en'" (click)="switchTo('en')">
+        EN
+      </button>
+      <button type="button" [class.active]="languageService.currentLang() === 'ar'" (click)="switchTo('ar')">
+        ع
+      </button>
+    </div>
+
+    @if (authService.isLoggedIn()) {
+      <button type="button" class="logout-btn" (click)="logout()">
+        {{ 'AUTH.LOGOUT' | translate }}
+      </button>
+    }
+  </div>
+</header>

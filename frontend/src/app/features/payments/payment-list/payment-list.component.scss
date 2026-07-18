@@ -1,0 +1,20 @@
+.payment-list {
+  .badge {
+    &-paid {
+      background: var(--color-success-light);
+      color: var(--color-success);
+    }
+    &-partial {
+      background: var(--color-warning-light);
+      color: var(--color-warning);
+    }
+    &-pending {
+      background: var(--color-bg-subtle);
+      color: var(--color-text-secondary);
+    }
+    &-overdue {
+      background: var(--color-danger-light);
+      color: var(--color-danger);
+    }
+  }
+}

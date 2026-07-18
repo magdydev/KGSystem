@@ -6,9 +6,9 @@ namespace KGSystem.Domain.Entities;
 
 public sealed class Enrollment : BaseEntity, IAggregateRoot
 {
-    public Guid ChildId { get; private set; }
-    public Guid KGPhaseId { get; private set; }
-    public Guid AcademicYearId { get; private set; }
+    public int ChildId { get; private set; }
+    public int KGPhaseId { get; private set; }
+    public int AcademicYearId { get; private set; }
     public DateTime EnrollmentDate { get; private set; }
     public EnrollmentStatus Status { get; private set; } = EnrollmentStatus.Active;
     public string? Notes { get; private set; }
@@ -21,13 +21,13 @@ public sealed class Enrollment : BaseEntity, IAggregateRoot
     {
     }
 
-    public Enrollment(Guid childId, Guid kgPhaseId, Guid academicYearId, string? notes = null)
+    public Enrollment(int childId, int kgPhaseId, int academicYearId, string? notes = null)
     {
-        if (childId == Guid.Empty)
+        if (childId <= 0)
             throw new DomainException("Child ID is required.");
-        if (kgPhaseId == Guid.Empty)
+        if (kgPhaseId <= 0)
             throw new DomainException("KG phase ID is required.");
-        if (academicYearId == Guid.Empty)
+        if (academicYearId <= 0)
             throw new DomainException("Academic year ID is required.");
 
         ChildId = childId;

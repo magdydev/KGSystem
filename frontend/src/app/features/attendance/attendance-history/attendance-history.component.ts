@@ -10,6 +10,7 @@ import { ReferenceDataService } from '../../../core/services/reference-data.serv
 import { EnrollmentService } from '../../../core/services/enrollment.service';
 import { ChildService } from '../../../core/services/child.service';
 import { BrandingService } from '../../../core/services/branding.service';
+import { ToastService } from '../../../core/services/toast.service';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { DateInputComponent } from '../../../shared/components/date-input/date-input.component';
@@ -57,7 +58,7 @@ import { forkJoin, firstValueFrom } from 'rxjs';
             </div>
             <div class="form-group">
               <label>{{ 'REFERENCE.PHASES.TITLE' | translate }}</label>
-              <select class="form-control" [ngModel]="selectedPhaseId" (ngModelChange)="selectedPhaseId = $event; applyFilters()" style="width:auto">
+              <select class="form-control" [ngModel]="selectedPhaseId" (ngModelChange)="selectedPhaseId = +$event; applyFilters()" style="width:auto">
                 <option value="">{{ 'COMMON.ALL' | translate }}</option>
                 @for (p of phases; track p.id) {
                   <option [value]="p.id">{{ currentLang() === 'ar' ? p.nameAr : p.nameEn }}</option>
@@ -67,6 +68,7 @@ import { forkJoin, firstValueFrom } from 'rxjs';
             @if (groupedDates().length > 0) {
               <div class="form-group" style="align-self:flex-end">
                 <button type="button" class="btn btn-primary btn-sm" (click)="printReport()">
+                  <span class="material-symbols-outlined" style="font-size:16px">print</span>
                   {{ 'COMMON.PRINT' | translate }}
                 </button>
               </div>
@@ -119,7 +121,7 @@ import { forkJoin, firstValueFrom } from 'rxjs';
               <label>{{ 'ATTENDANCE.SELECT_CHILD' | translate }}</label>
               <input type="text" class="form-control"
                 [placeholder]="'ATTENDANCE.SEARCH_CHILD' | translate"
-                [ngModel]="childSearchTerm"
+                [ngModel]="childSearchTerm()"
                 (ngModelChange)="onChildSearch($event)"
                 (focus)="childSearchOpen.set(true)"
                 (blur)="onChildSearchBlur()" />
@@ -150,6 +152,7 @@ import { forkJoin, firstValueFrom } from 'rxjs';
             </div>
             <div class="form-group" style="align-self:flex-end">
               <button type="button" class="btn btn-primary" (click)="generateChildReport()" [disabled]="reportLoading">
+                <span class="material-symbols-outlined" style="font-size:18px">summarize</span>
                 {{ 'ATTENDANCE.GENERATE_REPORT' | translate }}
               </button>
             </div>
@@ -271,6 +274,7 @@ export class AttendanceHistoryComponent {
   private readonly childService = inject(ChildService);
   private readonly translate = inject(TranslateService);
   private readonly brandingService = inject(BrandingService);
+  private readonly toast = inject(ToastService);
 
   private templateHtml = '';
   private childReportTemplateHtml = '';
@@ -282,13 +286,13 @@ export class AttendanceHistoryComponent {
 
   selectedYear = new Date().getFullYear();
   selectedMonth = 0;
-  selectedPhaseId = '';
+  selectedPhaseId = 0;
 
   years: number[] = [];
   phases: KGPhase[] = [];
 
   private allAttendance: Attendance[] = [];
-  private childPhaseMap = new Map<string, string>();
+  private childPhaseMap = new Map<number, number>();
 
   readonly dateGroups = signal<Map<string, Attendance[]>>(new Map());
   readonly groupedDates = signal<string[]>([]);
@@ -327,7 +331,7 @@ export class AttendanceHistoryComponent {
           this.selectedYear = this.years[0];
         }
 
-        const latestPerChild = new Map<string, Enrollment>();
+        const latestPerChild = new Map<number, Enrollment>();
         for (const e of enrollments) {
           const existing = latestPerChild.get(e.childId);
           if (!existing || e.enrollmentDate > existing.enrollmentDate) {
@@ -341,7 +345,10 @@ export class AttendanceHistoryComponent {
         this.applyFilters();
         this.loading = false;
       },
-      error: () => { this.loading = false; },
+      error: () => {
+        this.loading = false;
+        this.toast.error(this.translate.instant('TOAST.LOAD_ERROR'));
+      },
     });
   }
 
@@ -404,7 +411,7 @@ export class AttendanceHistoryComponent {
       records = records.filter(r => this.childPhaseMap.get(r.childId) === this.selectedPhaseId);
     }
 
-    const childMap = new Map<string, { nameAr: string; nameEn: string; days: Map<number, string> }>();
+    const childMap = new Map<number, { nameAr: string; nameEn: string; days: Map<number, string> }>();
     for (const r of records) {
       let child = childMap.get(r.childId);
       if (!child) {
@@ -600,7 +607,6 @@ export class AttendanceHistoryComponent {
         .replace('{{APP_NAME_AR}}', this.brandingService.branding().appNameAr)
         .replace('{{APP_NAME_EN}}', this.brandingService.branding().appName)
         .replace('{{CHILD_NAME}}', this.currentLang() === 'ar' ? child.fullNameAr : child.fullNameEn)
-        .replace('{{CHILD_ID}}', child.id)
         .replace('{{PHASE_NAME}}', phaseName)
         .replace('{{DATE_FROM}}', from.toLocaleDateString('ar-EG'))
         .replace('{{DATE_TO}}', to.toLocaleDateString('ar-EG'))

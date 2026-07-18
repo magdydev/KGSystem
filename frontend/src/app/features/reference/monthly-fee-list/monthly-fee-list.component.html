@@ -6,7 +6,7 @@
   <div class="card">
     <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
       <label for="yearSelect" style="white-space:nowrap">{{ 'REFERENCE.MONTHLY_FEES.ACADEMIC_YEAR' | translate }}:</label>
-      <select id="yearSelect" [ngModel]="selectedYearId()" (ngModelChange)="onYearChange($event)" class="form-control" style="max-width:300px">
+      <select id="yearSelect" [ngModel]="selectedYearId()" (ngModelChange)="onYearChange(+$event)" class="form-control" style="max-width:300px">
         <option value="">{{ 'REFERENCE.MONTHLY_FEES.SELECT_YEAR' | translate }}</option>
         @for (y of academicYears$ | async; track y.id) {
           <option [value]="y.id">{{ y.nameAr || y.nameEn }}</option>
@@ -34,7 +34,7 @@
                   <input [name]="'amount_' + i" type="number" [(ngModel)]="row.amount" required min="0" step="0.01" class="form-control" style="width:120px" />
                 </td>
                 <td>
-                  <app-date-input [name]="'dueDate_' + i" [ngModel]="row.dueDate" (ngModelChange)="row.dueDate = $event" style="width:160px;display:inline-block" />
+                  <app-date-input [name]="'dueDate_' + i" [ngModel]="row.dueDate" (ngModelChange)="row.dueDate = $event" style="width:190px;display:inline-block" />
                 </td>
               </tr>
             }
@@ -43,6 +43,7 @@
 
         <div class="form-actions" style="margin-top:1rem">
           <button type="button" class="btn btn-primary" (click)="save()" [disabled]="feesForm.invalid || saving()">
+            <span class="material-symbols-outlined" style="font-size:18px">save</span>
             {{ (saving() ? 'COMMON.SAVING' : 'COMMON.SAVE') | translate }}
           </button>
         </div>

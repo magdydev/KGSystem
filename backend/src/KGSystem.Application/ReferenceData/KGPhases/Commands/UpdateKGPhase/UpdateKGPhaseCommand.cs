@@ -4,7 +4,7 @@ using KGSystem.Application.Common.Interfaces;
 namespace KGSystem.Application.ReferenceData.KGPhases.Commands.UpdateKGPhase;
 
 public sealed record UpdateKGPhaseCommand(
-    Guid Id,
+    int Id,
     string NameAr,
     string NameEn,
     int SortOrder,

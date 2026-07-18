@@ -8,4 +8,4 @@ public sealed record CreateKGPhaseCommand(
     string NameEn,
     int SortOrder,
     string? DescriptionAr,
-    string? DescriptionEn) : ICommand<Guid>;
+    string? DescriptionEn) : ICommand<int>;

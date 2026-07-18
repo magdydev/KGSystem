@@ -6,9 +6,9 @@ using KGSystem.Domain.Repositories;
 
 namespace KGSystem.Application.Children.Commands.CreateChild;
 
-public sealed class CreateChildCommandHandler(IUnitOfWork unitOfWork) : ICommandHandler<CreateChildCommand, Guid>
+public sealed class CreateChildCommandHandler(IUnitOfWork unitOfWork) : ICommandHandler<CreateChildCommand, int>
 {
-    public async Task<Guid> Handle(CreateChildCommand command, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateChildCommand command, CancellationToken cancellationToken)
     {
         var gender = Enum.Parse<Gender>(command.Gender);
 

@@ -4,9 +4,9 @@ using KGSystem.Domain.Repositories;
 
 namespace KGSystem.Application.ReferenceData.KGPhases.Commands.CreateKGPhase;
 
-public sealed class CreateKGPhaseCommandHandler(IUnitOfWork unitOfWork) : ICommandHandler<CreateKGPhaseCommand, Guid>
+public sealed class CreateKGPhaseCommandHandler(IUnitOfWork unitOfWork) : ICommandHandler<CreateKGPhaseCommand, int>
 {
-    public async Task<Guid> Handle(CreateKGPhaseCommand command, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateKGPhaseCommand command, CancellationToken cancellationToken)
     {
         var phase = new KGPhase(command.Code, command.NameAr, command.NameEn, command.SortOrder, command.DescriptionAr, command.DescriptionEn);
 

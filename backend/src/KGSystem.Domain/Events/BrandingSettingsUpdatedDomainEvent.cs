@@ -2,4 +2,4 @@ using KGSystem.Domain.Common;
 
 namespace KGSystem.Domain.Events;
 
-public sealed record BrandingSettingsUpdatedDomainEvent(Guid SettingsId, string AppName) : DomainEvent;
+public sealed record BrandingSettingsUpdatedDomainEvent(int SettingsId, string AppName) : DomainEvent;

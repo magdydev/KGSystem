@@ -3,12 +3,14 @@
     "DASHBOARD": "Dashboard",
     "CHILDREN": "Children",
     "PAYMENTS": "Payments",
+    "PAYMENT_FOLLOW_UP": "Payment Follow-up",
     "ATTENDANCE": "Attendance",
     "ATTENDANCE_HISTORY": "Attendance Reports",
     "PHASES": "KG Phases",
     "ACADEMIC_YEARS": "Academic Years",
     "MONTHLY_FEES": "Monthly Fees",
-    "SETTINGS": "Settings"
+    "SETTINGS": "Settings",
+    "TOGGLE_MENU": "Toggle menu"
   },
   "AUTH": {
     "LOGIN": "Login",
@@ -136,6 +138,17 @@
     "PAID": "Paid",
     "PARTIAL": "Partial",
     "UNPAID": "Unpaid",
+    "FOLLOW_UP": {
+      "TITLE": "Payment Follow-up",
+      "OUTSTANDING_COUNT": "outstanding payments",
+      "TOTAL_OUTSTANDING": "total outstanding",
+      "GUARDIAN": "Guardian",
+      "PHONE": "Phone",
+      "ACTION": "Action",
+      "SEND_REMINDER": "Send Reminder",
+      "NO_PHONE": "No phone on file",
+      "NO_OUTSTANDING": "No outstanding payments — everyone is paid up"
+    },
     "OVERDUE": "Overdue",
     "RECEIVED_BY": "Received By",
     "NOTES": "Notes",
@@ -271,9 +284,11 @@
     }
   },
   "COMMON": {
+    "REF_NO": "Ref #",
     "ACTIONS": "Actions",
     "SAVE": "Save",
     "SAVING": "Saving...",
+    "CREATE": "Create",
     "CANCEL": "Cancel",
     "DELETE": "Delete",
     "EDIT": "Edit",
@@ -296,7 +311,8 @@
     "MONTH": "Month",
     "PRINT": "Print PDF",
     "ALL_STATUSES": "All Statuses",
-    "SELECT_DATE": "Select date"
+    "SELECT_DATE": "Select date",
+    "SELECT": "Select"
   },
   "STATUS": {
     "ACTIVE": "Active",
@@ -315,7 +331,6 @@
     "Manager": "Manager"
   },
   "FOOTER": {
-    "POWERED_BY": "Powered by",
     "COPYRIGHT": "© MagdyTech Solutions"
   },
   "SETTINGS": {
@@ -359,6 +374,16 @@
     "MONTHLY_FEES_SAVED": "Monthly fees saved successfully",
     "MONTHLY_FEES_SAVE_ERROR": "Failed to save monthly fees",
     "ATTENDANCE_SAVED": "Attendance saved successfully",
-    "ATTENDANCE_SAVE_ERROR": "Failed to save attendance"
+    "ATTENDANCE_SAVE_ERROR": "Failed to save attendance",
+    "SAVE_ERROR": "Failed to save. Please try again.",
+    "LOAD_ERROR": "Failed to load data. Please try again.",
+    "CHILD_DELETED": "Child deleted successfully",
+    "CHILD_DELETE_ERROR": "Failed to delete child",
+    "PHASE_DELETED": "Phase deleted successfully",
+    "PHASE_DELETE_ERROR": "Failed to delete phase",
+    "ACADEMIC_YEAR_DELETED": "Academic year deleted successfully",
+    "ACADEMIC_YEAR_DELETE_ERROR": "Failed to delete academic year",
+    "ACADEMIC_YEAR_UPDATED": "Academic year updated successfully",
+    "ACADEMIC_YEAR_UPDATE_ERROR": "Failed to update academic year"
   }
 }

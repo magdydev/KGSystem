@@ -2,10 +2,10 @@ namespace KGSystem.Application.Enrollments.Dtos;
 
 public sealed record EnrollmentDto
 {
-    public Guid Id { get; init; }
-    public Guid ChildId { get; init; }
-    public Guid KGPhaseId { get; init; }
-    public Guid AcademicYearId { get; init; }
+    public int Id { get; init; }
+    public int ChildId { get; init; }
+    public int KGPhaseId { get; init; }
+    public int AcademicYearId { get; init; }
     public string ChildNameAr { get; init; } = string.Empty;
     public string ChildNameEn { get; init; } = string.Empty;
     public string KGPhaseNameAr { get; init; } = string.Empty;

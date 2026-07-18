@@ -20,6 +20,6 @@ public sealed record PhaseDistributionItem(string PhaseNameAr, string PhaseNameE
 
 public sealed record PaymentStatusItem(string Status, int Count, decimal Amount);
 
-public sealed record RecentPaymentItem(Guid Id, string ChildNameAr, string ChildNameEn, decimal Amount, string Status, DateTime? PaidDate);
+public sealed record RecentPaymentItem(int Id, string ChildNameAr, string ChildNameEn, decimal Amount, string Status, DateTime? PaidDate);
 
 public sealed record MonthlyEnrollmentTrend(string Month, int Count);

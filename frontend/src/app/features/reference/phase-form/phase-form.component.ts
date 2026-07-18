@@ -1,8 +1,9 @@
 import { Component, inject, input, output, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CreateKGPhaseRequest, KGPhase } from '../../../core/models/reference.model';
 import { ReferenceDataService } from '../../../core/services/reference-data.service';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-phase-form',
@@ -13,6 +14,8 @@ import { ReferenceDataService } from '../../../core/services/reference-data.serv
 })
 export class PhaseFormComponent implements OnInit {
   private readonly referenceDataService = inject(ReferenceDataService);
+  private readonly toast = inject(ToastService);
+  private readonly translate = inject(TranslateService);
 
   readonly editPhase = input<KGPhase | null>(null);
   readonly saved = output<void>();
@@ -51,7 +54,10 @@ export class PhaseFormComponent implements OnInit {
     };
 
     const done = () => { this.saving.set(false); this.saved.emit(); };
-    const fail = () => this.saving.set(false);
+    const fail = () => {
+      this.saving.set(false);
+      this.toast.error(this.translate.instant('TOAST.SAVE_ERROR'));
+    };
 
     if (this.editPhase()) {
       this.referenceDataService.updatePhase(this.editPhase()!.id, request).subscribe({ next: done, error: fail });

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/auth.service';
+import { LayoutService } from '../../../core/services/layout.service';
 
 interface NavItem {
   label: string;
@@ -19,11 +20,13 @@ interface NavItem {
 })
 export class SidebarComponent {
   protected readonly authService = inject(AuthService);
+  protected readonly layoutService = inject(LayoutService);
 
   readonly navItems: NavItem[] = [
     { label: 'NAV.DASHBOARD', route: '/dashboard', icon: 'dashboard', roles: ['Manager'] },
     { label: 'NAV.CHILDREN', route: '/children', icon: 'child_care' },
     { label: 'NAV.PAYMENTS', route: '/payments', icon: 'payments' },
+    { label: 'NAV.PAYMENT_FOLLOW_UP', route: '/payments/follow-up', icon: 'campaign' },
     { label: 'NAV.ATTENDANCE', route: '/attendance', icon: 'fact_check' },
     { label: 'NAV.ATTENDANCE_HISTORY', route: '/attendance-report', icon: 'history' },
     { label: 'NAV.PHASES', route: '/phases', icon: 'layers', roles: ['Manager'] },

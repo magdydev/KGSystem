@@ -1,6 +1,6 @@
 export interface Attendance {
-  id: string;
-  childId: string;
+  id: number;
+  childId: number;
   childNameAr: string;
   childNameEn: string;
   date: string;

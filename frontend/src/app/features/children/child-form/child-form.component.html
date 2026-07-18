@@ -39,7 +39,7 @@
     <div class="form-row">
       <div class="form-group">
         <label>{{ 'CHILDREN.PHASE' | translate }}</label>
-        <select class="form-control" name="kgPhaseId" [(ngModel)]="formData.kgPhaseId">
+        <select class="form-control" name="kgPhaseId" [ngModel]="formData.kgPhaseId" (ngModelChange)="formData.kgPhaseId = $event ? +$event : undefined">
           <option value="">{{ 'COMMON.SELECT' | translate }}</option>
           @for (p of phases$ | async; track p.id) {
             <option [value]="p.id">{{ p.nameAr || p.nameEn }}</option>
@@ -48,7 +48,7 @@
       </div>
       <div class="form-group">
         <label>{{ 'CHILDREN.ACADEMIC_YEAR' | translate }}</label>
-        <select class="form-control" name="academicYearId" [(ngModel)]="formData.academicYearId">
+        <select class="form-control" name="academicYearId" [ngModel]="formData.academicYearId" (ngModelChange)="formData.academicYearId = $event ? +$event : undefined">
           <option value="">{{ 'COMMON.SELECT' | translate }}</option>
           @for (y of academicYears$ | async; track y.id) {
             <option [value]="y.id">{{ y.nameAr || y.nameEn }}</option>
@@ -90,8 +90,12 @@
     </div>
 
     <div class="form-actions">
-      <button type="button" class="btn btn-secondary" (click)="cancel()">{{ 'COMMON.CANCEL' | translate }}</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">
+        <span class="material-symbols-outlined" style="font-size:18px">close</span>
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
       <button type="submit" class="btn btn-primary" [disabled]="childForm.invalid || saving()">
+        <span class="material-symbols-outlined" style="font-size:18px">save</span>
         {{ (saving() ? 'COMMON.SAVING' : (editChild() ? 'COMMON.SAVE' : 'COMMON.CREATE')) | translate }}
       </button>
     </div>

@@ -10,7 +10,7 @@ namespace KGSystem.Domain.Repositories;
 /// </summary>
 public interface IRepository<TEntity> where TEntity : BaseEntity
 {
-    Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
 
     Task<IReadOnlyList<TEntity>> ListAllAsync(CancellationToken cancellationToken = default);
 

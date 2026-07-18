@@ -26,7 +26,7 @@ export interface PaymentStatusItem {
 }
 
 export interface RecentPaymentItem {
-  id: string;
+  id: number;
   childNameAr: string;
   childNameEn: string;
   amount: number;

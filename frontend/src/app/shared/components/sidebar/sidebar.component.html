@@ -1,4 +1,4 @@
-<nav class="sidebar">
+<nav class="sidebar" id="app-sidebar" [class.open]="layoutService.sidebarOpen()">
   <ul class="nav-list">
     @for (item of visibleItems(); track item.route) {
       <li>
@@ -6,7 +6,8 @@
           class="nav-link"
           [routerLink]="item.route"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' }"
+          [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' || item.route === '/payments' }"
+          (click)="layoutService.closeSidebar()"
         >
           <span class="material-symbols-outlined nav-icon">{{ item.icon }}</span>
           <span class="nav-label">{{ item.label | translate }}</span>
@@ -15,3 +16,6 @@
     }
   </ul>
 </nav>
+@if (layoutService.sidebarOpen()) {
+  <div class="sidebar-backdrop" (click)="layoutService.closeSidebar()"></div>
+}

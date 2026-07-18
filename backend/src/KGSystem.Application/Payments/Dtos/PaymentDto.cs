@@ -2,8 +2,8 @@ namespace KGSystem.Application.Payments.Dtos;
 
 public sealed record PaymentDto
 {
-    public Guid Id { get; init; }
-    public Guid EnrollmentId { get; init; }
+    public int Id { get; init; }
+    public int EnrollmentId { get; init; }
     public string ChildNameAr { get; init; } = string.Empty;
     public string ChildNameEn { get; init; } = string.Empty;
     public string KGPhaseNameAr { get; init; } = string.Empty;

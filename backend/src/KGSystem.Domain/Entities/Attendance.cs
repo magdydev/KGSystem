@@ -6,7 +6,7 @@ namespace KGSystem.Domain.Entities;
 
 public sealed class Attendance : BaseEntity, IAggregateRoot
 {
-    public Guid ChildId { get; private set; }
+    public int ChildId { get; private set; }
     public DateTime Date { get; private set; }
     public AttendanceStatus Status { get; private set; }
     public string? Notes { get; private set; }
@@ -17,9 +17,9 @@ public sealed class Attendance : BaseEntity, IAggregateRoot
     {
     }
 
-    public Attendance(Guid childId, DateTime date, AttendanceStatus status, string? notes = null)
+    public Attendance(int childId, DateTime date, AttendanceStatus status, string? notes = null)
     {
-        if (childId == Guid.Empty)
+        if (childId <= 0)
             throw new DomainException("Child ID is required.");
         if (date == default)
             throw new DomainException("Date is required.");

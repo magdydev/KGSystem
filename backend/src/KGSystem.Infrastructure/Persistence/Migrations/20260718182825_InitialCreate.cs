@@ -15,7 +15,8 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
                 name: "AcademicYears",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     NameAr = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     NameEn = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -71,10 +72,33 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BrandingSettings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AppName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    AppNameAr = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    LogoUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
+                    LogoData = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PrimaryColor = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    SecondaryColor = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BrandingSettings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Children",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FirstNameAr = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     FirstNameEn = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     LastNameAr = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -103,7 +127,8 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
                 name: "KGPhases",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     NameAr = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     NameEn = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -117,6 +142,32 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_KGPhases", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MonthlyFees",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AcademicYearId = table.Column<int>(type: "int", nullable: false),
+                    Month = table.Column<int>(type: "int", nullable: false),
+                    FeeAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    FeeCurrency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MonthlyFees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MonthlyFees_AcademicYears_AcademicYearId",
+                        column: x => x.AcademicYearId,
+                        principalTable: "AcademicYears",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -229,8 +280,9 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
                 name: "Attendances",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ChildId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ChildId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
@@ -253,10 +305,11 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
                 name: "Enrollments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ChildId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    KGPhaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AcademicYearId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ChildId = table.Column<int>(type: "int", nullable: false),
+                    KGPhaseId = table.Column<int>(type: "int", nullable: false),
+                    AcademicYearId = table.Column<int>(type: "int", nullable: false),
                     EnrollmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
@@ -288,42 +341,12 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MonthlyFees",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    KGPhaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AcademicYearId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FeeAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    FeeCurrency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
-                    DueDay = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MonthlyFees", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MonthlyFees_AcademicYears_AcademicYearId",
-                        column: x => x.AcademicYearId,
-                        principalTable: "AcademicYears",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_MonthlyFees_KGPhases_KGPhaseId",
-                        column: x => x.KGPhaseId,
-                        principalTable: "KGPhases",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Payments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EnrollmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EnrollmentId = table.Column<int>(type: "int", nullable: false),
                     Month = table.Column<int>(type: "int", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
                     AmountDue = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
@@ -439,14 +462,9 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_MonthlyFees_AcademicYearId",
+                name: "IX_MonthlyFees_AcademicYearId_Month",
                 table: "MonthlyFees",
-                column: "AcademicYearId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MonthlyFees_KGPhaseId_AcademicYearId",
-                table: "MonthlyFees",
-                columns: new[] { "KGPhaseId", "AcademicYearId" },
+                columns: new[] { "AcademicYearId", "Month" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -480,6 +498,9 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Attendances");
+
+            migrationBuilder.DropTable(
+                name: "BrandingSettings");
 
             migrationBuilder.DropTable(
                 name: "MonthlyFees");

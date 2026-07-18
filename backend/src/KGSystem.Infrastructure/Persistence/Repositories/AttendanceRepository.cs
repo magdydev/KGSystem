@@ -19,6 +19,11 @@ public sealed class AttendanceRepository(ApplicationDbContext context) : Reposit
             .ToListAsync(ct);
     }
 
+    public async Task<IReadOnlyList<Attendance>> GetByChildAsync(int childId, CancellationToken ct = default)
+    {
+        return await DbSet.Where(a => a.ChildId == childId).ToListAsync(ct);
+    }
+
     public async Task<int> GetAbsentCountAsync(DateTime date, CancellationToken ct = default)
     {
         return await DbSet.AsNoTracking()
@@ -26,21 +31,22 @@ public sealed class AttendanceRepository(ApplicationDbContext context) : Reposit
             .CountAsync(ct);
     }
 
-    public async Task<Attendance?> GetByChildAndDateAsync(Guid childId, DateTime date, CancellationToken ct = default)
+    public async Task<Attendance?> GetByChildAndDateAsync(int childId, DateTime date, CancellationToken ct = default)
     {
         return await DbSet.AsNoTracking()
             .FirstOrDefaultAsync(a => a.ChildId == childId && a.Date == date.Date, ct);
     }
 
-    public async Task RemoveByChildIdsAndDateAsync(IEnumerable<Guid> childIds, DateTime date, CancellationToken ct = default)
+    public async Task RemoveByChildIdsAndDateAsync(IEnumerable<int> childIds, DateTime date, CancellationToken ct = default)
     {
         var ids = childIds.ToList();
         if (ids.Count == 0) return;
 
-        var idList = string.Join(",", ids.Select(id => $"'{id}'"));
+        var placeholders = string.Join(",", ids.Select((_, i) => $"@p{i + 1}"));
+        var parameters = new object[] { date.Date }.Concat(ids.Cast<object>()).ToArray();
         await Context.Database.ExecuteSqlRawAsync(
-            $"DELETE FROM Attendances WHERE Date = @p0 AND ChildId IN ({idList})",
-            [date.Date],
+            $"DELETE FROM Attendances WHERE Date = @p0 AND ChildId IN ({placeholders})",
+            parameters,
             ct);
     }
 }

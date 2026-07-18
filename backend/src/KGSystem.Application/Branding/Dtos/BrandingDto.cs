@@ -2,7 +2,7 @@ namespace KGSystem.Application.Branding.Dtos;
 
 public sealed record BrandingDto
 {
-    public Guid Id { get; init; }
+    public int Id { get; init; }
     public string AppName { get; init; } = string.Empty;
     public string AppNameAr { get; init; } = string.Empty;
     public string? LogoUrl { get; init; }

@@ -1,6 +1,6 @@
 export interface Payment {
-  id: string;
-  enrollmentId: string;
+  id: number;
+  enrollmentId: number;
   childNameAr: string;
   childNameEn: string;
   kgPhaseNameAr: string;

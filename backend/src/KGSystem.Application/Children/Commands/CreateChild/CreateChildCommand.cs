@@ -15,5 +15,5 @@ public sealed record CreateChildCommand(
     string? GuardianEmail,
     string? Nationality,
     string? Address,
-    Guid? KGPhaseId,
-    Guid? AcademicYearId) : ICommand<Guid>;
+    int? KGPhaseId,
+    int? AcademicYearId) : ICommand<int>;

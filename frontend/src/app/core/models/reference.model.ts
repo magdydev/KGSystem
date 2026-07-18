@@ -1,5 +1,5 @@
 export interface KGPhase {
-  id: string;
+  id: number;
   code: string;
   nameAr: string;
   nameEn: string;
@@ -9,7 +9,7 @@ export interface KGPhase {
 }
 
 export interface AcademicYear {
-  id: string;
+  id: number;
   code: string;
   nameAr: string;
   nameEn: string;
@@ -19,8 +19,8 @@ export interface AcademicYear {
 }
 
 export interface MonthlyFee {
-  id: string;
-  academicYearId: string;
+  id: number;
+  academicYearId: number;
   academicYearNameAr: string;
   academicYearNameEn: string;
   month: number;
@@ -36,7 +36,7 @@ export interface MonthlyFeeItem {
 }
 
 export interface PatchMonthlyFeesRequest {
-  academicYearId: string;
+  academicYearId: number;
   fees: MonthlyFeeItem[];
 }
 

@@ -5,6 +5,6 @@ namespace KGSystem.Domain.Repositories;
 
 public interface IChildRepository : IRepository<Child>
 {
-    Task<IReadOnlyList<Child>> SearchAsync(string? name, ChildStatus? status, Guid? phaseId, CancellationToken cancellationToken = default);
-    Task<Child?> GetWithEnrollmentsAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Child>> SearchAsync(string? name, ChildStatus? status, int? phaseId, CancellationToken cancellationToken = default);
+    Task<Child?> GetWithEnrollmentsAsync(int id, CancellationToken cancellationToken = default);
 }

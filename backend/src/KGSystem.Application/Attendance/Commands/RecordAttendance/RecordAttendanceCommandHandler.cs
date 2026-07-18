@@ -5,9 +5,9 @@ using KGSystem.Domain.Repositories;
 
 namespace KGSystem.Application.Attendance.Commands.RecordAttendance;
 
-public sealed class RecordAttendanceCommandHandler(IUnitOfWork unitOfWork) : ICommandHandler<RecordAttendanceCommand, Guid>
+public sealed class RecordAttendanceCommandHandler(IUnitOfWork unitOfWork) : ICommandHandler<RecordAttendanceCommand, int>
 {
-    public async Task<Guid> Handle(RecordAttendanceCommand command, CancellationToken cancellationToken)
+    public async Task<int> Handle(RecordAttendanceCommand command, CancellationToken cancellationToken)
     {
         var existing = await unitOfWork.Attendances.GetByChildAndDateAsync(command.ChildId, command.Date, cancellationToken);
 

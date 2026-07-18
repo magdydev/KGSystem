@@ -8,4 +8,4 @@ public sealed record CreateAcademicYearCommand(
     string NameEn,
     DateTime StartDate,
     DateTime EndDate,
-    bool IsActive) : ICommand<Guid>;
+    bool IsActive) : ICommand<int>;

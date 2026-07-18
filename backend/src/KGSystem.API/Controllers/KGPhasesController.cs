@@ -27,25 +27,22 @@ public sealed class KGPhasesController(IDispatcher dispatcher) : ControllerBase
 
     [Authorize(Roles = "Manager")]
     [HttpPost]
-    [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateKGPhaseCommand command, CancellationToken cancellationToken)
     {
-        var phaseId = await dispatcher.Send<Guid>(command, cancellationToken);
+        var phaseId = await dispatcher.Send<int>(command, cancellationToken);
         return CreatedAtAction(nameof(GetAll), null, phaseId);
     }
 
     [Authorize(Roles = "Manager")]
-    [HttpPut("{id:guid}")]
+    [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateKGPhaseCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateKGPhaseCommand command, CancellationToken cancellationToken)
     {
-        if (id != command.Id)
-            return BadRequest(new { error = "Route ID does not match command ID." });
-
-        await dispatcher.Send<Unit>(command, cancellationToken);
+        await dispatcher.Send<Unit>(command with { Id = id }, cancellationToken);
         return NoContent();
     }
 }

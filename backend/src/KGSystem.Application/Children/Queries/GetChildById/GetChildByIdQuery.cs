@@ -3,4 +3,4 @@ using KGSystem.Application.Common.Interfaces;
 
 namespace KGSystem.Application.Children.Queries.GetChildById;
 
-public sealed record GetChildByIdQuery(Guid Id) : IQuery<ChildDetailDto>;
+public sealed record GetChildByIdQuery(int Id) : IQuery<ChildDetailDto>;

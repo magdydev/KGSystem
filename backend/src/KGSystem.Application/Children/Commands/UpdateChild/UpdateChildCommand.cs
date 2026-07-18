@@ -4,7 +4,7 @@ using KGSystem.Application.Common.Interfaces;
 namespace KGSystem.Application.Children.Commands.UpdateChild;
 
 public sealed record UpdateChildCommand(
-    Guid Id,
+    int Id,
     string FirstNameAr,
     string FirstNameEn,
     string LastNameAr,

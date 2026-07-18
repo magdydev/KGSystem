@@ -1,9 +1,10 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { AcademicYear } from '../../../core/models/reference.model';
 import { ReferenceDataService } from '../../../core/services/reference-data.service';
+import { ToastService } from '../../../core/services/toast.service';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { AcademicYearFormComponent } from '../academic-year-form/academic-year-form.component';
 
@@ -16,6 +17,8 @@ import { AcademicYearFormComponent } from '../academic-year-form/academic-year-f
 })
 export class AcademicYearListComponent {
   private readonly referenceDataService = inject(ReferenceDataService);
+  private readonly toast = inject(ToastService);
+  private readonly translate = inject(TranslateService);
 
   academicYears$: Observable<AcademicYear[]> = this.referenceDataService.getAcademicYears();
 
@@ -41,10 +44,14 @@ export class AcademicYearListComponent {
     this.academicYears$ = this.referenceDataService.getAcademicYears();
   }
 
-  deleteAcademicYear(id: string): void {
+  deleteAcademicYear(id: number): void {
     if (confirm('Are you sure you want to delete this academic year?')) {
-      this.referenceDataService.deleteAcademicYear(id).subscribe(() => {
-        this.academicYears$ = this.referenceDataService.getAcademicYears();
+      this.referenceDataService.deleteAcademicYear(id).subscribe({
+        next: () => {
+          this.academicYears$ = this.referenceDataService.getAcademicYears();
+          this.toast.success(this.translate.instant('TOAST.ACADEMIC_YEAR_DELETED'));
+        },
+        error: () => this.toast.error(this.translate.instant('TOAST.ACADEMIC_YEAR_DELETE_ERROR')),
       });
     }
   }
@@ -58,8 +65,12 @@ export class AcademicYearListComponent {
       endDate: year.endDate,
       isActive: !year.isActive,
     };
-    this.referenceDataService.updateAcademicYear(year.id, request).subscribe(() => {
-      this.academicYears$ = this.referenceDataService.getAcademicYears();
+    this.referenceDataService.updateAcademicYear(year.id, request).subscribe({
+      next: () => {
+        this.academicYears$ = this.referenceDataService.getAcademicYears();
+        this.toast.success(this.translate.instant('TOAST.ACADEMIC_YEAR_UPDATED'));
+      },
+      error: () => this.toast.error(this.translate.instant('TOAST.ACADEMIC_YEAR_UPDATE_ERROR')),
     });
   }
 }

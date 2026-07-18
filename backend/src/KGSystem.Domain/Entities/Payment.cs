@@ -6,7 +6,7 @@ namespace KGSystem.Domain.Entities;
 
 public sealed class Payment : BaseEntity, IAggregateRoot
 {
-    public Guid EnrollmentId { get; private set; }
+    public int EnrollmentId { get; private set; }
     public int Month { get; private set; }
     public int Year { get; private set; }
     public decimal AmountDue { get; private set; }
@@ -25,9 +25,9 @@ public sealed class Payment : BaseEntity, IAggregateRoot
     {
     }
 
-    public Payment(Guid enrollmentId, int month, int year, decimal amountDue, DateTime dueDate)
+    public Payment(int enrollmentId, int month, int year, decimal amountDue, DateTime dueDate)
     {
-        if (enrollmentId == Guid.Empty)
+        if (enrollmentId <= 0)
             throw new DomainException("Enrollment ID is required.");
         if (month < 1 || month > 12)
             throw new DomainException("Month must be between 1 and 12.");
@@ -45,19 +45,23 @@ public sealed class Payment : BaseEntity, IAggregateRoot
         DueDate = dueDate;
     }
 
-    public void RecordPayment(decimal amountPaid, PaymentMethod method, string? receivedBy, DateTime? paidDate = null)
+    public void RecordPayment(decimal amountPaid, PaymentMethod method, string? receivedBy, DateTime? paidDate = null, decimal discount = 0)
     {
         if (amountPaid <= 0)
             throw new DomainException("Payment amount must be greater than zero.");
+        if (discount < 0)
+            throw new DomainException("Discount cannot be negative.");
         if (Status == PaymentStatus.Paid)
             throw new DomainException("Payment is already fully paid.");
 
         AmountPaid = amountPaid;
+        Discount = discount;
         Method = method;
         ReceivedBy = receivedBy?.Trim();
         PaidDate = paidDate ?? DateTime.UtcNow;
 
-        Status = AmountPaid >= AmountDue ? PaymentStatus.Paid : PaymentStatus.Partial;
+        var effectiveDue = AmountDue - Discount;
+        Status = AmountPaid >= effectiveDue ? PaymentStatus.Paid : PaymentStatus.Partial;
     }
 
     public void UpdatePayment(decimal amountPaid, decimal discount, PaymentMethod method, string? notes, string? receivedBy)

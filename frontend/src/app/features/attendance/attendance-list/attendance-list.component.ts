@@ -12,7 +12,7 @@ import { ReferenceDataService } from '../../../core/services/reference-data.serv
 import { ToastService } from '../../../core/services/toast.service';
 
 interface ChildAttendance {
-  childId: string;
+  childId: number;
   childNameAr: string;
   childNameEn: string;
   status: string;
@@ -20,7 +20,7 @@ interface ChildAttendance {
 }
 
 interface PhaseGroup {
-  id: string;
+  id: number;
   nameAr: string;
   nameEn: string;
   children: ChildAttendance[];
@@ -49,7 +49,7 @@ export class AttendanceListComponent implements OnInit {
   loading = true;
 
   readonly phaseGroups = signal<PhaseGroup[]>([]);
-  readonly selectedPhaseId = signal<string>('');
+  readonly selectedPhaseId = signal<number>(0);
 
   readonly phases = computed(() =>
     this.phaseGroups().map(g => ({ id: g.id, nameAr: g.nameAr, nameEn: g.nameEn }))
@@ -101,7 +101,7 @@ export class AttendanceListComponent implements OnInit {
       attendance: this.attendanceService.getAll(this.date),
     }).subscribe({
       next: ({ phases, attendance }) => {
-        const attMap = new Map<string, Attendance>();
+        const attMap = new Map<number, Attendance>();
         for (const a of attendance) {
           attMap.set(a.childId, a);
         }
@@ -139,7 +139,10 @@ export class AttendanceListComponent implements OnInit {
           this.loading = false;
         });
       },
-      error: () => { this.loading = false; },
+      error: () => {
+        this.loading = false;
+        this.toast.error(this.translate.instant('TOAST.LOAD_ERROR'));
+      },
     });
   }
 

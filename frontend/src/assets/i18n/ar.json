@@ -3,12 +3,14 @@
     "DASHBOARD": "لوحة المعلومات",
     "CHILDREN": "الأطفال",
     "PAYMENTS": "المدفوعات",
+    "PAYMENT_FOLLOW_UP": "متابعة المدفوعات",
     "ATTENDANCE": "تسجيل الحضور",
     "ATTENDANCE_HISTORY": "تقارير الحضور",
     "PHASES": "مراحل الروضة",
     "ACADEMIC_YEARS": "السنوات الدراسية",
     "MONTHLY_FEES": "الرسوم الشهرية",
-    "SETTINGS": "الإعدادات"
+    "SETTINGS": "الإعدادات",
+    "TOGGLE_MENU": "فتح القائمة"
   },
   "AUTH": {
     "LOGIN": "تسجيل الدخول",
@@ -136,6 +138,17 @@
     "PAID": "مدفوع",
     "PARTIAL": "مدفوع جزئياً",
     "UNPAID": "غير مدفوع",
+    "FOLLOW_UP": {
+      "TITLE": "متابعة المدفوعات",
+      "OUTSTANDING_COUNT": "مدفوعات مستحقة",
+      "TOTAL_OUTSTANDING": "إجمالي المستحق",
+      "GUARDIAN": "ولي الأمر",
+      "PHONE": "الهاتف",
+      "ACTION": "إجراء",
+      "SEND_REMINDER": "إرسال تذكير",
+      "NO_PHONE": "لا يوجد رقم هاتف",
+      "NO_OUTSTANDING": "لا توجد مدفوعات مستحقة — تم سداد الكل"
+    },
     "OVERDUE": "متأخر",
     "RECEIVED_BY": "تم الاستلام بواسطة",
     "NOTES": "ملاحظات",
@@ -271,9 +284,11 @@
     }
   },
   "COMMON": {
+    "REF_NO": "الرقم المرجعي",
     "ACTIONS": "الإجراءات",
     "SAVE": "حفظ",
     "SAVING": "جاري الحفظ...",
+    "CREATE": "إنشاء",
     "CANCEL": "إلغاء",
     "DELETE": "حذف",
     "EDIT": "تعديل",
@@ -296,7 +311,8 @@
     "MONTH": "الشهر",
     "PRINT": "طباعة PDF",
     "ALL_STATUSES": "جميع الحالات",
-    "SELECT_DATE": "اختر تاريخ"
+    "SELECT_DATE": "اختر تاريخ",
+    "SELECT": "اختر"
   },
   "STATUS": {
     "ACTIVE": "نشط",
@@ -315,8 +331,7 @@
     "Manager": "مدير"
   },
   "FOOTER": {
-    "POWERED_BY": "مدعوم من",
-    "COPYRIGHT": "© حلول ماجدي تك"
+    "COPYRIGHT": "جميع الحقوق محفوظة لشركة مجدي تِك"
   },
   "SETTINGS": {
     "TITLE": "الإعدادات",
@@ -359,6 +374,16 @@
     "MONTHLY_FEES_SAVED": "تم حفظ الرسوم الشهرية بنجاح",
     "MONTHLY_FEES_SAVE_ERROR": "فشل حفظ الرسوم الشهرية",
     "ATTENDANCE_SAVED": "تم حفظ الحضور بنجاح",
-    "ATTENDANCE_SAVE_ERROR": "فشل حفظ الحضور"
+    "ATTENDANCE_SAVE_ERROR": "فشل حفظ الحضور",
+    "SAVE_ERROR": "فشل الحفظ، يرجى المحاولة مرة أخرى",
+    "LOAD_ERROR": "فشل تحميل البيانات، يرجى المحاولة مرة أخرى",
+    "CHILD_DELETED": "تم حذف الطفل بنجاح",
+    "CHILD_DELETE_ERROR": "فشل حذف الطفل",
+    "PHASE_DELETED": "تم حذف المرحلة بنجاح",
+    "PHASE_DELETE_ERROR": "فشل حذف المرحلة",
+    "ACADEMIC_YEAR_DELETED": "تم حذف العام الدراسي بنجاح",
+    "ACADEMIC_YEAR_DELETE_ERROR": "فشل حذف العام الدراسي",
+    "ACADEMIC_YEAR_UPDATED": "تم تحديث العام الدراسي بنجاح",
+    "ACADEMIC_YEAR_UPDATE_ERROR": "فشل تحديث العام الدراسي"
   }
 }

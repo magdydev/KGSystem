@@ -4,7 +4,7 @@ namespace KGSystem.Application.Children.Dtos;
 
 public sealed record ChildDetailDto
 {
-    public Guid Id { get; init; }
+    public int Id { get; init; }
     public string FirstNameAr { get; init; } = string.Empty;
     public string FirstNameEn { get; init; } = string.Empty;
     public string LastNameAr { get; init; } = string.Empty;

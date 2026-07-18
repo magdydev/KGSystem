@@ -28,7 +28,7 @@ export class MonthlyFeeListComponent {
   private academicYears: AcademicYear[] = [];
 
   readonly academicYears$: Observable<AcademicYear[]> = this.referenceDataService.getAcademicYears();
-  readonly selectedYearId = signal<string>('');
+  readonly selectedYearId = signal<number>(0);
   readonly saving = signal(false);
   readonly loading = signal(false);
 
@@ -43,7 +43,7 @@ export class MonthlyFeeListComponent {
     });
   }
 
-  onYearChange(yearId: string): void {
+  onYearChange(yearId: number): void {
     this.selectedYearId.set(yearId);
     if (!yearId) { this.rows = []; return; }
 

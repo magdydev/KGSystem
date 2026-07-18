@@ -26,11 +26,11 @@ public sealed class MonthlyFeesController(IDispatcher dispatcher) : ControllerBa
     }
 
     [Authorize(Roles = "Accountant,Manager")]
-    [HttpGet("by-year/{yearId:guid}")]
+    [HttpGet("by-year/{yearId:int}")]
     [ProducesResponseType(typeof(MonthlyFeeDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByYearAndMonth(
-        Guid yearId,
+        int yearId,
         [FromQuery] int month,
         CancellationToken cancellationToken)
     {
@@ -42,10 +42,10 @@ public sealed class MonthlyFeesController(IDispatcher dispatcher) : ControllerBa
     }
 
     [Authorize(Roles = "Manager")]
-    [HttpPatch("by-year/{yearId:guid}")]
+    [HttpPatch("by-year/{yearId:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> PatchByYear(Guid yearId, [FromBody] PatchMonthlyFeesCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> PatchByYear(int yearId, [FromBody] PatchMonthlyFeesCommand command, CancellationToken cancellationToken)
     {
         if (yearId != command.AcademicYearId)
             return BadRequest(new { error = "Route year ID does not match command year ID." });

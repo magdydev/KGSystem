@@ -6,9 +6,9 @@ using KGSystem.Domain.Repositories;
 
 namespace KGSystem.Application.Payments.Commands.RecordPayment;
 
-public sealed class RecordPaymentCommandHandler(IUnitOfWork unitOfWork) : ICommandHandler<RecordPaymentCommand, Guid>
+public sealed class RecordPaymentCommandHandler(IUnitOfWork unitOfWork) : ICommandHandler<RecordPaymentCommand, int>
 {
-    public async Task<Guid> Handle(RecordPaymentCommand command, CancellationToken cancellationToken)
+    public async Task<int> Handle(RecordPaymentCommand command, CancellationToken cancellationToken)
     {
         var enrollment = await unitOfWork.Enrollments.GetByIdAsync(command.EnrollmentId, cancellationToken);
         if (enrollment is null)
@@ -22,7 +22,7 @@ public sealed class RecordPaymentCommandHandler(IUnitOfWork unitOfWork) : IComma
             command.DueDate);
 
         var method = Enum.Parse<PaymentMethod>(command.Method);
-        payment.RecordPayment(command.AmountPaid, method, command.ReceivedBy, command.PaidDate);
+        payment.RecordPayment(command.AmountPaid, method, command.ReceivedBy, command.PaidDate, command.Discount);
 
         await unitOfWork.Payments.AddAsync(payment, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);

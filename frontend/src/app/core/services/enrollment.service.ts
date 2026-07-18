@@ -13,15 +13,15 @@ export class EnrollmentService {
     return this.http.get<Enrollment[]>(this.baseUrl);
   }
 
-  getByChild(childId: string): Observable<Enrollment[]> {
+  getByChild(childId: number): Observable<Enrollment[]> {
     return this.http.get<Enrollment[]>(`${this.baseUrl}/child/${childId}`);
   }
 
-  create(request: { childId: string; kgPhaseId: string; academicYearId: string; notes?: string }): Observable<string> {
-    return this.http.post<string>(this.baseUrl, request);
+  create(request: { childId: number; kgPhaseId: number; academicYearId: number; notes?: string }): Observable<number> {
+    return this.http.post<number>(this.baseUrl, request);
   }
 
-  update(id: string, request: { status?: string; notes?: string }): Observable<void> {
+  update(id: number, request: { status?: string; notes?: string }): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}`, request);
   }
 }

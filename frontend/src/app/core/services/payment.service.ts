@@ -17,15 +17,15 @@ export class PaymentService {
     return this.http.get<Payment[]>(this.baseUrl, { params });
   }
 
-  getByChild(childId: string): Observable<Payment[]> {
+  getByChild(childId: number): Observable<Payment[]> {
     return this.http.get<Payment[]>(`${this.baseUrl}/child/${childId}`);
   }
 
-  create(request: { enrollmentId: string; month: number; year: number; amountDue: number; amountPaid: number; discount?: number; dueDate: string; method: string; notes?: string }): Observable<string> {
-    return this.http.post<string>(this.baseUrl, request);
+  create(request: { enrollmentId: number; month: number; year: number; amountDue: number; amountPaid: number; discount?: number; dueDate: string; method: string; notes?: string }): Observable<number> {
+    return this.http.post<number>(this.baseUrl, request);
   }
 
-  update(id: string, request: { amountPaid?: number; discount?: number; status?: string; method?: string; notes?: string }): Observable<void> {
+  update(id: number, request: { amountPaid?: number; discount?: number; status?: string; method?: string; notes?: string }): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}`, request);
   }
 }

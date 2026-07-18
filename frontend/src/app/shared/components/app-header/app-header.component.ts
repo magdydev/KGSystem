@@ -3,6 +3,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { AppLanguage, LanguageService } from '../../../core/services/language.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { BrandingService } from '../../../core/services/branding.service';
+import { LayoutService } from '../../../core/services/layout.service';
 import { logoSource } from '../../../core/models/branding.model';
 
 @Component({
@@ -16,6 +17,7 @@ export class AppHeaderComponent {
   protected readonly languageService = inject(LanguageService);
   protected readonly brandingService = inject(BrandingService);
   protected readonly authService = inject(AuthService);
+  protected readonly layoutService = inject(LayoutService);
 
   protected readonly logoSrc = computed(() => logoSource(this.brandingService.branding()));
 

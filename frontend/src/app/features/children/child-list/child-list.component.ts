@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Subject, debounceTime } from 'rxjs';
 import { ChildService } from '../../../core/services/child.service';
+import { ToastService } from '../../../core/services/toast.service';
 import { Child, ChildDetail } from '../../../core/models/child.model';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { ChildFormComponent } from '../child-form/child-form.component';
@@ -19,6 +20,7 @@ import { ChildDetailComponent } from '../child-detail/child-detail.component';
 export class ChildListComponent {
   private readonly childService = inject(ChildService);
   private readonly translate = inject(TranslateService);
+  private readonly toast = inject(ToastService);
 
   readonly statusOptions = ['Active', 'Inactive', 'Transferred', 'Graduated', 'Suspended'];
   selectedStatus = '';
@@ -30,7 +32,7 @@ export class ChildListComponent {
   readonly formModalOpen = signal(false);
   readonly detailModalOpen = signal(false);
   readonly editChild = signal<ChildDetail | null>(null);
-  readonly viewChildId = signal<string>('');
+  readonly viewChildId = signal<number>(0);
 
   private readonly searchSubject = new Subject<void>();
 
@@ -46,7 +48,10 @@ export class ChildListComponent {
         this.children.set(children);
         this.loading.set(false);
       },
-      error: () => this.loading.set(false),
+      error: () => {
+        this.loading.set(false);
+        this.toast.error(this.translate.instant('TOAST.LOAD_ERROR'));
+      },
     });
   }
 
@@ -70,7 +75,7 @@ export class ChildListComponent {
     });
   }
 
-  openView(id: string): void {
+  openView(id: number): void {
     this.viewChildId.set(id);
     this.detailModalOpen.set(true);
   }
@@ -80,9 +85,15 @@ export class ChildListComponent {
     this.loadChildren();
   }
 
-  deleteChild(id: string): void {
+  deleteChild(id: number): void {
     if (confirm(this.translate.instant('CHILDREN.DELETE_CONFIRM'))) {
-      this.childService.delete(id).subscribe(() => this.loadChildren());
+      this.childService.delete(id).subscribe({
+        next: () => {
+          this.loadChildren();
+          this.toast.success(this.translate.instant('TOAST.CHILD_DELETED'));
+        },
+        error: () => this.toast.error(this.translate.instant('TOAST.CHILD_DELETE_ERROR')),
+      });
     }
   }
 }

@@ -4,7 +4,7 @@ using KGSystem.Application.Common.Interfaces;
 namespace KGSystem.Application.Payments.Commands.UpdatePayment;
 
 public sealed record UpdatePaymentCommand(
-    Guid Id,
+    int Id,
     decimal AmountPaid,
     decimal Discount,
     string Method,

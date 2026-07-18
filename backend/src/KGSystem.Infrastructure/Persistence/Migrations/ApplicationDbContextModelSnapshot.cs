@@ -24,9 +24,11 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("KGSystem.Domain.Entities.AcademicYear", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -73,12 +75,14 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("KGSystem.Domain.Entities.Attendance", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("ChildId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChildId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -111,9 +115,11 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("KGSystem.Domain.Entities.BrandingSetting", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AppName")
                         .IsRequired()
@@ -163,9 +169,11 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("KGSystem.Domain.Entities.Child", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .HasMaxLength(500)
@@ -254,15 +262,17 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("KGSystem.Domain.Entities.Enrollment", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("AcademicYearId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("ChildId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("AcademicYearId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChildId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -273,8 +283,8 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("KGPhaseId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("KGPhaseId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(500)
@@ -302,9 +312,11 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("KGSystem.Domain.Entities.KGPhase", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -351,12 +363,14 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("KGSystem.Domain.Entities.MonthlyFee", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("AcademicYearId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AcademicYearId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -383,9 +397,11 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("KGSystem.Domain.Entities.Payment", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("AmountDue")
                         .HasPrecision(18, 2)
@@ -405,8 +421,8 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("EnrollmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("EnrollmentId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -696,8 +712,8 @@ namespace KGSystem.Infrastructure.Persistence.Migrations
 
                     b.OwnsOne("KGSystem.Domain.ValueObjects.Money", "Amount", b1 =>
                         {
-                            b1.Property<Guid>("MonthlyFeeId")
-                                .HasColumnType("uniqueidentifier");
+                            b1.Property<int>("MonthlyFeeId")
+                                .HasColumnType("int");
 
                             b1.Property<decimal>("Amount")
                                 .HasPrecision(18, 2)

@@ -63,7 +63,7 @@ public sealed class GetDashboardSummaryQueryHandler(IUnitOfWork unitOfWork) : IQ
             .OrderBy(t => t.Month)
             .ToList();
 
-        var absentRate = totalStudents > 0 ? (decimal)dailyAbsent / totalStudents * 100 : 0;
+        var absentRate = activeStudents > 0 ? (decimal)dailyAbsent / activeStudents * 100 : 0;
 
         return new DashboardSummaryDto
         {

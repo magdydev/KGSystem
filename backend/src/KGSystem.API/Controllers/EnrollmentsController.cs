@@ -27,9 +27,9 @@ public sealed class EnrollmentsController(IDispatcher dispatcher) : ControllerBa
     }
 
     [Authorize(Roles = "Accountant,Manager")]
-    [HttpGet("child/{childId:guid}")]
+    [HttpGet("child/{childId:int}")]
     [ProducesResponseType(typeof(IReadOnlyList<EnrollmentDto>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetChildEnrollments(Guid childId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetChildEnrollments(int childId, CancellationToken cancellationToken)
     {
         var result = await dispatcher.Send<IReadOnlyList<EnrollmentDto>>(new GetChildEnrollmentsQuery(childId), cancellationToken);
         return Ok(result);
@@ -37,20 +37,20 @@ public sealed class EnrollmentsController(IDispatcher dispatcher) : ControllerBa
 
     [Authorize(Roles = "Accountant")]
     [HttpPost]
-    [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateEnrollment([FromBody] CreateEnrollmentCommand command, CancellationToken cancellationToken)
     {
-        var enrollmentId = await dispatcher.Send<Guid>(command, cancellationToken);
+        var enrollmentId = await dispatcher.Send<int>(command, cancellationToken);
         return CreatedAtAction(nameof(GetChildEnrollments), new { childId = command.ChildId }, enrollmentId);
     }
 
     [Authorize(Roles = "Accountant")]
-    [HttpPut("{id:guid}")]
+    [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateEnrollment(Guid id, [FromBody] UpdateEnrollmentCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateEnrollment(int id, [FromBody] UpdateEnrollmentCommand command, CancellationToken cancellationToken)
     {
         if (id != command.Id)
             return BadRequest(new { error = "Route ID does not match command ID." });

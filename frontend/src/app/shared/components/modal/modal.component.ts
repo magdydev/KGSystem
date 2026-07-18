@@ -47,7 +47,9 @@ import { Component, input, output, model, HostListener } from '@angular/core';
       align-items: center;
       justify-content: space-between;
       padding: 1.25rem 1.5rem;
+      background: color-mix(in srgb, var(--color-primary) 8%, var(--color-bg-white));
       border-bottom: 1px solid var(--color-border);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
       flex-shrink: 0;
     }
 

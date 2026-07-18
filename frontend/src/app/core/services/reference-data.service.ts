@@ -13,19 +13,19 @@ export class ReferenceDataService {
     return this.http.get<KGPhase[]>(`${this.baseUrl}/KGPhases`);
   }
 
-  getPhaseById(id: string): Observable<KGPhase> {
+  getPhaseById(id: number): Observable<KGPhase> {
     return this.http.get<KGPhase>(`${this.baseUrl}/KGPhases/${id}`);
   }
 
-  createPhase(request: CreateKGPhaseRequest): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/KGPhases`, request);
+  createPhase(request: CreateKGPhaseRequest): Observable<number> {
+    return this.http.post<number>(`${this.baseUrl}/KGPhases`, request);
   }
 
-  updatePhase(id: string, request: CreateKGPhaseRequest): Observable<void> {
+  updatePhase(id: number, request: CreateKGPhaseRequest): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/KGPhases/${id}`, request);
   }
 
-  deletePhase(id: string): Observable<void> {
+  deletePhase(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/KGPhases/${id}`);
   }
 
@@ -33,19 +33,19 @@ export class ReferenceDataService {
     return this.http.get<AcademicYear[]>(`${this.baseUrl}/AcademicYears`);
   }
 
-  getAcademicYearById(id: string): Observable<AcademicYear> {
+  getAcademicYearById(id: number): Observable<AcademicYear> {
     return this.http.get<AcademicYear>(`${this.baseUrl}/AcademicYears/${id}`);
   }
 
-  createAcademicYear(request: CreateAcademicYearRequest): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/AcademicYears`, request);
+  createAcademicYear(request: CreateAcademicYearRequest): Observable<number> {
+    return this.http.post<number>(`${this.baseUrl}/AcademicYears`, request);
   }
 
-  updateAcademicYear(id: string, request: CreateAcademicYearRequest): Observable<void> {
+  updateAcademicYear(id: number, request: CreateAcademicYearRequest): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/AcademicYears/${id}`, request);
   }
 
-  deleteAcademicYear(id: string): Observable<void> {
+  deleteAcademicYear(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/AcademicYears/${id}`);
   }
 
@@ -53,7 +53,7 @@ export class ReferenceDataService {
     return this.http.get<MonthlyFee[]>(`${this.baseUrl}/MonthlyFees`);
   }
 
-  getMonthlyFeeByYearAndMonth(yearId: string, month: number): Observable<MonthlyFee> {
+  getMonthlyFeeByYearAndMonth(yearId: number, month: number): Observable<MonthlyFee> {
     return this.http.get<MonthlyFee>(`${this.baseUrl}/MonthlyFees/by-year/${yearId}?month=${month}`);
   }
 

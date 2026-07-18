@@ -8,6 +8,37 @@
   flex-direction: column;
 }
 
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    inset-block: var(--header-height) 0;
+    inset-inline-start: 0;
+    z-index: 200;
+    transform: translateX(-100%);
+    transition: transform var(--transition-base);
+    box-shadow: var(--shadow-xl);
+
+    &.open {
+      transform: translateX(0);
+    }
+  }
+
+  :host-context(html[dir='rtl']) .sidebar {
+    transform: translateX(100%);
+
+    &.open {
+      transform: translateX(0);
+    }
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    inset: var(--header-height) 0 0 0;
+    background: rgb(0 0 0 / 40%);
+    z-index: 150;
+  }
+}
+
 .nav-list {
   list-style: none;
   margin: 0;

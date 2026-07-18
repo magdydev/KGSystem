@@ -34,9 +34,13 @@
 
     <div class="form-actions">
       <button type="submit" class="btn btn-primary" [disabled]="phaseForm.invalid || saving()">
+        <span class="material-symbols-outlined" style="font-size:18px">save</span>
         {{ (saving() ? 'COMMON.SAVING' : 'REFERENCE.PHASES.SAVE') | translate }}
       </button>
-      <button type="button" class="btn btn-secondary" (click)="cancel()">{{ 'REFERENCE.PHASES.CANCEL' | translate }}</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">
+        <span class="material-symbols-outlined" style="font-size:18px">close</span>
+        {{ 'REFERENCE.PHASES.CANCEL' | translate }}
+      </button>
     </div>
   </div>
 </form>

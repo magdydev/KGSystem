@@ -1,7 +1,7 @@
 import { Enrollment } from './enrollment.model';
 
 export interface Child {
-  id: string;
+  id: number;
   firstNameAr: string;
   firstNameEn: string;
   lastNameAr: string;
@@ -39,7 +39,7 @@ export interface CreateChildRequest {
   guardianEmail?: string;
   nationality?: string;
   address?: string;
-  kgPhaseId?: string;
-  academicYearId?: string;
+  kgPhaseId?: number;
+  academicYearId?: number;
 }
 

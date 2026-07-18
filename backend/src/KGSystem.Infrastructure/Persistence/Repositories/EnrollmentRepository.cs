@@ -7,7 +7,7 @@ namespace KGSystem.Infrastructure.Persistence.Repositories;
 
 public sealed class EnrollmentRepository(ApplicationDbContext context) : RepositoryBase<Enrollment>(context), IEnrollmentRepository
 {
-    public async Task<IReadOnlyList<Enrollment>> GetByChildAsync(Guid childId, CancellationToken ct = default)
+    public async Task<IReadOnlyList<Enrollment>> GetByChildAsync(int childId, CancellationToken ct = default)
     {
         return await DbSet.AsNoTracking()
             .Include(e => e.KGPhase)

@@ -1,8 +1,9 @@
 import { Component, inject, input, output, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CreateAcademicYearRequest, AcademicYear } from '../../../core/models/reference.model';
 import { ReferenceDataService } from '../../../core/services/reference-data.service';
+import { ToastService } from '../../../core/services/toast.service';
 import { DateInputComponent } from '../../../shared/components/date-input/date-input.component';
 
 @Component({
@@ -14,6 +15,8 @@ import { DateInputComponent } from '../../../shared/components/date-input/date-i
 })
 export class AcademicYearFormComponent implements OnInit {
   private readonly referenceDataService = inject(ReferenceDataService);
+  private readonly toast = inject(ToastService);
+  private readonly translate = inject(TranslateService);
 
   readonly editYear = input<AcademicYear | null>(null);
   readonly saved = output<void>();
@@ -52,7 +55,10 @@ export class AcademicYearFormComponent implements OnInit {
     };
 
     const done = () => { this.saving.set(false); this.saved.emit(); };
-    const fail = () => this.saving.set(false);
+    const fail = () => {
+      this.saving.set(false);
+      this.toast.error(this.translate.instant('TOAST.SAVE_ERROR'));
+    };
 
     if (this.editYear()) {
       this.referenceDataService.updateAcademicYear(this.editYear()!.id, request).subscribe({ next: done, error: fail });

@@ -4,7 +4,7 @@ using KGSystem.Application.Payments.Dtos;
 namespace KGSystem.Application.Payments.Queries.GetPayments;
 
 public sealed record GetPaymentsQuery(
-    Guid? ChildId,
+    int? ChildId,
     int? Month,
     int? Year,
     string? Status,

@@ -23,7 +23,7 @@ public sealed class AttendanceController(IDispatcher dispatcher) : ControllerBas
     [ProducesResponseType(typeof(IReadOnlyList<AttendanceDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAttendance(
         [FromQuery] DateTime? date,
-        [FromQuery] Guid? childId,
+        [FromQuery] int? childId,
         [FromQuery] string? status,
         CancellationToken cancellationToken)
     {
@@ -43,11 +43,11 @@ public sealed class AttendanceController(IDispatcher dispatcher) : ControllerBas
 
     [Authorize(Roles = "Accountant")]
     [HttpPost]
-    [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> RecordAttendance([FromBody] RecordAttendanceCommand command, CancellationToken cancellationToken)
     {
-        var attendanceId = await dispatcher.Send<Guid>(command, cancellationToken);
+        var attendanceId = await dispatcher.Send<int>(command, cancellationToken);
         return CreatedAtAction(nameof(GetTodayAttendance), null, attendanceId);
     }
 
@@ -62,11 +62,11 @@ public sealed class AttendanceController(IDispatcher dispatcher) : ControllerBas
     }
 
     [Authorize(Roles = "Accountant")]
-    [HttpPut("{id:guid}")]
+    [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateAttendance(Guid id, [FromBody] UpdateAttendanceCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateAttendance(int id, [FromBody] UpdateAttendanceCommand command, CancellationToken cancellationToken)
     {
         if (id != command.Id)
             return BadRequest(new { error = "Route ID does not match command ID." });

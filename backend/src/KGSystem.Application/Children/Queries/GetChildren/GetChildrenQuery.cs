@@ -6,4 +6,4 @@ namespace KGSystem.Application.Children.Queries.GetChildren;
 public sealed record GetChildrenQuery(
     string? SearchTerm,
     string? Status,
-    Guid? PhaseId) : IQuery<IReadOnlyList<ChildDto>>;
+    int? PhaseId) : IQuery<IReadOnlyList<ChildDto>>;

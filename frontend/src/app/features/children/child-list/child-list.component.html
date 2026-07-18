@@ -3,7 +3,7 @@
     <h1 class="page-title">{{ 'CHILDREN.TITLE' | translate }}</h1>
     <button class="btn btn-primary" (click)="openAdd()">
       <span class="material-symbols-outlined">add</span>
-      {{ 'CHILDREN.NEW' | translate }}
+      {{ 'CHILDREN.ADD' | translate }}
     </button>
   </div>
 
@@ -27,6 +27,7 @@
       <table class="table">
         <thead>
           <tr>
+            <th>{{ 'COMMON.REF_NO' | translate }}</th>
             <th>{{ 'CHILDREN.NAME' | translate }}</th>
             <th>{{ 'CHILDREN.DATE_OF_BIRTH' | translate }}</th>
             <th>{{ 'CHILDREN.GENDER' | translate }}</th>
@@ -37,9 +38,10 @@
         <tbody>
           @for (child of children(); track child.id) {
             <tr>
+              <td style="color:var(--color-text-muted)">#{{ child.id }}</td>
               <td><span style="font-weight:500">{{ child.fullNameAr }} - {{ child.fullNameEn }}</span></td>
               <td>{{ child.dateOfBirth | date }}</td>
-              <td>{{ child.gender }}</td>
+              <td>{{ 'CHILDREN.' + (child.gender | uppercase) | translate }}</td>
               <td>
                 <span class="badge" [class.badge-success]="(child.status | uppercase) === 'ACTIVE'" [class.badge-danger]="(child.status | uppercase) === 'INACTIVE'">
                   {{ 'STATUS.' + (child.status | uppercase) | translate }}
@@ -64,11 +66,11 @@
   </div>
 </div>
 
-<app-modal [(open)]="formModalOpen" [title]="((editChild() ? 'CHILDREN.EDIT' : 'CHILDREN.NEW') | translate)" [width]="'640px'">
+<app-modal [(open)]="formModalOpen" [title]="((editChild() ? 'CHILDREN.EDIT_TITLE' : 'CHILDREN.ADD_TITLE') | translate)" [width]="'640px'">
   <app-child-form [editChild]="editChild()" (saved)="onFormSaved()" (cancelled)="formModalOpen.set(false)"></app-child-form>
 </app-modal>
 
-<app-modal [(open)]="detailModalOpen" [title]="('CHILDREN.DETAIL' | translate)" [width]="'800px'">
+<app-modal [(open)]="detailModalOpen" [title]="('CHILDREN.DETAILS' | translate)" [width]="'800px'">
   @if (viewChildId()) {
     <app-child-detail [childId]="viewChildId()" (close)="detailModalOpen.set(false)"></app-child-detail>
   }

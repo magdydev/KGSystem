@@ -21,6 +21,9 @@ public sealed class RecordPaymentCommandValidator : AbstractValidator<RecordPaym
         RuleFor(v => v.AmountPaid)
             .GreaterThanOrEqualTo(0).WithMessage("Amount paid cannot be negative.");
 
+        RuleFor(v => v.Discount)
+            .GreaterThanOrEqualTo(0).WithMessage("Discount cannot be negative.");
+
         RuleFor(v => v.DueDate)
             .NotEmpty().WithMessage("Due date is required.");
 

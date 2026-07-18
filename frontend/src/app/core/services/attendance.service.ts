@@ -9,28 +9,28 @@ export class AttendanceService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiBaseUrl}/v1/attendance`;
 
-  getAll(date?: string, phaseId?: string): Observable<Attendance[]> {
+  getAll(date?: string, phaseId?: number): Observable<Attendance[]> {
     let params = new HttpParams();
     if (date) params = params.set('date', date);
     if (phaseId) params = params.set('phaseId', phaseId);
     return this.http.get<Attendance[]>(this.baseUrl, { params });
   }
 
-  getToday(phaseId?: string): Observable<Attendance[]> {
+  getToday(phaseId?: number): Observable<Attendance[]> {
     let params = new HttpParams();
     if (phaseId) params = params.set('phaseId', phaseId);
     return this.http.get<Attendance[]>(`${this.baseUrl}/today`, { params });
   }
 
-  create(request: { childId: string; date: string; status: string; notes?: string }): Observable<string> {
-    return this.http.post<string>(this.baseUrl, request);
+  create(request: { childId: number; date: string; status: string; notes?: string }): Observable<number> {
+    return this.http.post<number>(this.baseUrl, request);
   }
 
-  createBatch(request: { date: string; records: { childId: string; status: string; notes?: string }[] }): Observable<void> {
+  createBatch(request: { date: string; records: { childId: number; status: string; notes?: string }[] }): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/batch`, request);
   }
 
-  update(id: string, request: { status: string; notes?: string }): Observable<void> {
+  update(id: number, request: { status: string; notes?: string }): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}`, { id, ...request });
   }
 }

@@ -6,7 +6,7 @@ namespace KGSystem.Domain.Entities;
 
 public sealed class MonthlyFee : BaseEntity, IAggregateRoot
 {
-    public Guid AcademicYearId { get; private set; }
+    public int AcademicYearId { get; private set; }
     public int Month { get; private set; }
     public Money Amount { get; private set; } = null!;
     public DateTime? DueDate { get; private set; }
@@ -17,9 +17,9 @@ public sealed class MonthlyFee : BaseEntity, IAggregateRoot
     {
     }
 
-    public MonthlyFee(Guid academicYearId, int month, Money amount, DateTime? dueDate = null)
+    public MonthlyFee(int academicYearId, int month, Money amount, DateTime? dueDate = null)
     {
-        if (academicYearId == Guid.Empty)
+        if (academicYearId <= 0)
             throw new DomainException("Academic year ID is required.");
         if (month < 1 || month > 12)
             throw new DomainException("Month must be between 1 and 12.");

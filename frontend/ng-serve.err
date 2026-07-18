@@ -1,2 +1,78 @@
-[1m[31mAn unhandled exception occurred: Port 4200 is already in use. Use '--port' to specify a different port.
-See "C:\Users\magdy\AppData\Local\Temp\ng-sOW0Wm\angular-errors.log" for further details.[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'displayId' does not exist on type 'ChildDetail'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/children/child-detail/child-detail.component.html:9:103:
+[37m      9 │ ...text-muted);font-size:var(--text-sm)">#{{ child.[32mdisplayId[37m }}</span>
+        ╵                                                    [32m~~~~~~~~~[0m
+
+  Error occurs in the template of component ChildDetailComponent.
+
+    src/app/features/children/child-detail/child-detail.component.ts:16:15:
+[37m      16 │   templateUrl: [32m'./child-detail.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'displayId' does not exist on type 'Child'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/children/child-list/child-list.component.html:41:66:
+[37m      41 │ ... style="color:var(--color-text-muted)">#{{ child.[32mdisplayId[37m }}</td>
+         ╵                                                     [32m~~~~~~~~~[0m
+
+  Error occurs in the template of component ChildListComponent.
+
+    src/app/features/children/child-list/child-list.component.ts:17:15:
+[37m      17 │   templateUrl: [32m'./child-list.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'displayId' does not exist on type 'Payment'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/payments/payment-list/payment-list.component.html:49:64:
+[37m      49 │ ... <td style="color:var(--color-text-muted)">#{{ p.[32mdisplayId[37m }}</td>
+         ╵                                                     [32m~~~~~~~~~[0m
+
+  Error occurs in the template of component PaymentListComponent.
+
+    src/app/features/payments/payment-list/payment-list.component.ts:16:15:
+[37m      16 │   templateUrl: [32m'./payment-list.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'displayId' does not exist on type 'Child'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/children/child-list/child-list.component.html:41:66:
+[37m      41 │ ... style="color:var(--color-text-muted)">#{{ child.[32mdisplayId[37m }}</td>
+         ╵                                                     [32m~~~~~~~~~[0m
+
+  Error occurs in the template of component ChildListComponent.
+
+    src/app/features/children/child-list/child-list.component.ts:17:15:
+[37m      17 │   templateUrl: [32m'./child-list.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'displayId' does not exist on type 'Payment'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/payments/payment-list/payment-list.component.html:49:64:
+[37m      49 │ ... <td style="color:var(--color-text-muted)">#{{ p.[32mdisplayId[37m }}</td>
+         ╵                                                     [32m~~~~~~~~~[0m
+
+  Error occurs in the template of component PaymentListComponent.
+
+    src/app/features/payments/payment-list/payment-list.component.ts:16:15:
+[37m      16 │   templateUrl: [32m'./payment-list.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'displayId' does not exist on type 'Payment'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/payments/payment-list/payment-list.component.html:49:64:
+[37m      49 │ ... <td style="color:var(--color-text-muted)">#{{ p.[32mdisplayId[37m }}</td>
+         ╵                                                     [32m~~~~~~~~~[0m
+
+  Error occurs in the template of component PaymentListComponent.
+
+    src/app/features/payments/payment-list/payment-list.component.ts:16:15:
+[37m      16 │   templateUrl: [32m'./payment-list.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m

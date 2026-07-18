@@ -4,7 +4,10 @@
 @if (childDetail(); as child) {
   <div class="card info-card">
     <div class="info-header" style="margin-bottom:1.25rem">
-      <h2 style="margin:0;font-size:var(--text-lg);font-weight:600">{{ child.fullNameAr }} — {{ child.fullNameEn }}</h2>
+      <h2 style="margin:0;font-size:var(--text-lg);font-weight:600">
+        {{ child.fullNameAr }} — {{ child.fullNameEn }}
+        <span style="font-weight:400;color:var(--color-text-muted);font-size:var(--text-sm)">#{{ child.id }}</span>
+      </h2>
     </div>
     <div class="info-grid">
       <div class="info-item">
@@ -72,7 +75,7 @@
                   <td>{{ enrollment.kgPhaseNameAr }} - {{ enrollment.kgPhaseNameEn }}</td>
                   <td>{{ enrollment.academicYearNameAr }} - {{ enrollment.academicYearNameEn }}</td>
                   <td>{{ enrollment.enrollmentDate | date: 'mediumDate' }}</td>
-                  <td><span class="badge badge-info">{{ enrollment.status }}</span></td>
+                  <td><span class="badge badge-info">{{ 'ENROLLMENTS.' + (enrollment.status | uppercase) | translate }}</span></td>
                   <td>{{ enrollment.notes || '—' }}</td>
                 </tr>
               }
@@ -103,7 +106,7 @@
                   <td>{{ payment.amountDue }}</td>
                   <td>{{ payment.amountPaid }}</td>
                   <td>{{ payment.remaining }}</td>
-                  <td><span class="badge badge-info">{{ payment.status }}</span></td>
+                  <td><span class="badge badge-info">{{ 'PAYMENTS.STATUS_' + (payment.status | uppercase) | translate }}</span></td>
                   <td>{{ payment.notes || '—' }}</td>
                 </tr>
               }
@@ -128,7 +131,7 @@
               @for (record of attendance(); track record.id) {
                 <tr>
                   <td>{{ record.date | date: 'mediumDate' }}</td>
-                  <td><span class="badge badge-info">{{ record.status }}</span></td>
+                  <td><span class="badge badge-info">{{ 'ATTENDANCE.' + (record.status | uppercase) | translate }}</span></td>
                   <td>{{ record.notes || '—' }}</td>
                 </tr>
               }

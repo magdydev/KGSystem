@@ -14,7 +14,7 @@ public sealed class PaymentRepository(ApplicationDbContext context) : Repository
             .ToListAsync(ct);
     }
 
-    public async Task<IReadOnlyList<Payment>> GetByEnrollmentAsync(Guid enrollmentId, CancellationToken ct = default)
+    public async Task<IReadOnlyList<Payment>> GetByEnrollmentAsync(int enrollmentId, CancellationToken ct = default)
     {
         return await DbSet.AsNoTracking()
             .Where(p => p.EnrollmentId == enrollmentId)

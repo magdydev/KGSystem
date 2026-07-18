@@ -1,12 +1,12 @@
 export interface Enrollment {
-  id: string;
-  childId: string;
+  id: number;
+  childId: number;
   childNameAr: string;
   childNameEn: string;
-  kgPhaseId: string;
+  kgPhaseId: number;
   kgPhaseNameAr: string;
   kgPhaseNameEn: string;
-  academicYearId: string;
+  academicYearId: number;
   academicYearNameAr: string;
   academicYearNameEn: string;
   enrollmentDate: string;

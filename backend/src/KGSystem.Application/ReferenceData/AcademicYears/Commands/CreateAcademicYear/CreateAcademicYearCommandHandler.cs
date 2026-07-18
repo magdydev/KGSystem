@@ -4,9 +4,9 @@ using KGSystem.Domain.Repositories;
 
 namespace KGSystem.Application.ReferenceData.AcademicYears.Commands.CreateAcademicYear;
 
-public sealed class CreateAcademicYearCommandHandler(IUnitOfWork unitOfWork) : ICommandHandler<CreateAcademicYearCommand, Guid>
+public sealed class CreateAcademicYearCommandHandler(IUnitOfWork unitOfWork) : ICommandHandler<CreateAcademicYearCommand, int>
 {
-    public async Task<Guid> Handle(CreateAcademicYearCommand command, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateAcademicYearCommand command, CancellationToken cancellationToken)
     {
         var year = new AcademicYear(command.Code, command.NameAr, command.NameEn, command.StartDate, command.EndDate, command.IsActive);
 

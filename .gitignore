@@ -67,6 +67,9 @@ yarn-error.log*
 ### Docker ###
 docker-compose.override.yml
 
+### Run scripts ###
+.run/
+
 ### OS ###
 .DS_Store
 Thumbs.db

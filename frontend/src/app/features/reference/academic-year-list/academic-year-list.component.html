@@ -40,6 +40,7 @@
                     <span class="material-symbols-outlined" style="font-size:16px">edit</span>
                   </button>
                   <button class="btn btn-sm" (click)="toggleActive(year)">
+                    <span class="material-symbols-outlined" style="font-size:16px">{{ year.isActive ? 'toggle_off' : 'toggle_on' }}</span>
                     {{ (year.isActive ? 'REFERENCE.ACADEMIC_YEARS.DEACTIVATE' : 'REFERENCE.ACADEMIC_YEARS.ACTIVATE') | translate }}
                   </button>
                   <button class="btn btn-sm btn-danger" (click)="deleteAcademicYear(year.id)">

@@ -32,6 +32,7 @@
         <table class="table">
           <thead>
             <tr>
+              <th>{{ 'COMMON.REF_NO' | translate }}</th>
               <th>{{ 'PAYMENTS.CHILD_NAME' | translate }}</th>
               <th>{{ 'PAYMENTS.MONTH_YEAR' | translate }}</th>
               <th>{{ 'PAYMENTS.AMOUNT_DUE' | translate }}</th>
@@ -45,6 +46,7 @@
           <tbody>
             @for (p of payments; track p.id) {
               <tr>
+                <td style="color:var(--color-text-muted)">#{{ p.id }}</td>
                 <td>{{ p.childNameAr }} / {{ p.childNameEn }}</td>
                 <td>{{ p.month + '/' + p.year }}</td>
                 <td>{{ p.amountDue | currency:'EGP' }}</td>

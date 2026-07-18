@@ -11,7 +11,29 @@
 }
 
 .main-content {
+  position: relative;
   flex: 1;
   overflow-y: auto;
   background: var(--color-bg);
+}
+
+.main-illustration {
+  position: fixed;
+  bottom: 0;
+  width: 440px;
+  max-width: 50vw;
+  height: auto;
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.main-illustration--right {
+  right: 0.5rem;
+}
+
+.main-illustration--left {
+  left: 0.5rem;
+  transform: scaleX(-1);
 }

@@ -81,8 +81,12 @@
 
   <div class="form-actions">
     <button type="submit" class="btn btn-primary" [disabled]="saving()">
+      <span class="material-symbols-outlined" style="font-size:18px">save</span>
       {{ (saving() ? 'COMMON.SAVING' : 'COMMON.SAVE') | translate }}
     </button>
-    <button type="button" class="btn btn-secondary" (click)="cancel()">{{ 'COMMON.CANCEL' | translate }}</button>
+    <button type="button" class="btn btn-secondary" (click)="cancel()">
+      <span class="material-symbols-outlined" style="font-size:18px">close</span>
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
   </div>
 </form>

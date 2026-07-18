@@ -9,7 +9,7 @@ public abstract class BaseEntity
 {
     private readonly List<IDomainEvent> _domainEvents = [];
 
-    public Guid Id { get; protected set; } = Guid.NewGuid();
+    public int Id { get; protected set; }
 
     public DateTime CreatedAt { get; set; }
 

@@ -5,9 +5,9 @@ using KGSystem.Domain.Repositories;
 
 namespace KGSystem.Application.Enrollments.Commands.CreateEnrollment;
 
-public sealed class CreateEnrollmentCommandHandler(IUnitOfWork unitOfWork) : ICommandHandler<CreateEnrollmentCommand, Guid>
+public sealed class CreateEnrollmentCommandHandler(IUnitOfWork unitOfWork) : ICommandHandler<CreateEnrollmentCommand, int>
 {
-    public async Task<Guid> Handle(CreateEnrollmentCommand command, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateEnrollmentCommand command, CancellationToken cancellationToken)
     {
         var child = await unitOfWork.Children.GetByIdAsync(command.ChildId, cancellationToken);
         if (child is null)

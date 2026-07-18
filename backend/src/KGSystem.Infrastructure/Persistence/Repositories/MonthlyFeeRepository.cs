@@ -15,7 +15,7 @@ public sealed class MonthlyFeeRepository(ApplicationDbContext context) : Reposit
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyList<MonthlyFee>> GetByYearAsync(Guid yearId, CancellationToken ct = default)
+    public async Task<IReadOnlyList<MonthlyFee>> GetByYearAsync(int yearId, CancellationToken ct = default)
     {
         return await DbSet.AsNoTracking()
             .Include(f => f.AcademicYear)
@@ -24,14 +24,14 @@ public sealed class MonthlyFeeRepository(ApplicationDbContext context) : Reposit
             .ToListAsync(ct);
     }
 
-    public async Task<MonthlyFee?> GetByYearAndMonthAsync(Guid yearId, int month, CancellationToken ct = default)
+    public async Task<MonthlyFee?> GetByYearAndMonthAsync(int yearId, int month, CancellationToken ct = default)
     {
         return await DbSet.AsNoTracking()
             .Include(f => f.AcademicYear)
             .FirstOrDefaultAsync(f => f.AcademicYearId == yearId && f.Month == month, ct);
     }
 
-    public async Task RemoveByYearAsync(Guid yearId, CancellationToken ct = default)
+    public async Task RemoveByYearAsync(int yearId, CancellationToken ct = default)
     {
         await Context.Database.ExecuteSqlRawAsync(
             $"DELETE FROM MonthlyFees WHERE AcademicYearId = @p0",

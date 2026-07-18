@@ -1,12 +1,13 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { CreateChildRequest, ChildDetail } from '../../../core/models/child.model';
 import { KGPhase, AcademicYear } from '../../../core/models/reference.model';
 import { ChildService } from '../../../core/services/child.service';
 import { ReferenceDataService } from '../../../core/services/reference-data.service';
+import { ToastService } from '../../../core/services/toast.service';
 import { DateInputComponent } from '../../../shared/components/date-input/date-input.component';
 
 @Component({
@@ -19,6 +20,8 @@ import { DateInputComponent } from '../../../shared/components/date-input/date-i
 export class ChildFormComponent {
   private readonly childService = inject(ChildService);
   private readonly referenceDataService = inject(ReferenceDataService);
+  private readonly toast = inject(ToastService);
+  private readonly translate = inject(TranslateService);
 
   readonly editChild = input<ChildDetail | null>(null);
   readonly saved = output<void>();
@@ -43,8 +46,8 @@ export class ChildFormComponent {
     guardianEmail: '',
     nationality: '',
     address: '',
-    kgPhaseId: '',
-    academicYearId: '',
+    kgPhaseId: undefined,
+    academicYearId: undefined,
   };
 
   constructor() {
@@ -63,8 +66,8 @@ export class ChildFormComponent {
         guardianEmail: child.guardianEmail ?? '',
         nationality: child.nationality ?? '',
         address: child.address ?? '',
-        kgPhaseId: '',
-        academicYearId: '',
+        kgPhaseId: undefined,
+        academicYearId: undefined,
       };
     }
   }
@@ -72,15 +75,26 @@ export class ChildFormComponent {
   save(): void {
     this.saving.set(true);
 
+    const payload = {
+      ...this.formData,
+      kgPhaseId: this.formData.kgPhaseId || undefined,
+      academicYearId: this.formData.academicYearId || undefined,
+    };
+
+    const fail = () => {
+      this.saving.set(false);
+      this.toast.error(this.translate.instant('TOAST.SAVE_ERROR'));
+    };
+
     if (this.editChild()) {
-      this.childService.update(this.editChild()!.id, this.formData).subscribe({
+      this.childService.update(this.editChild()!.id, payload).subscribe({
         next: () => { this.saving.set(false); this.saved.emit(); },
-        error: () => this.saving.set(false),
+        error: fail,
       });
     } else {
-      this.childService.create(this.formData).subscribe({
+      this.childService.create(payload).subscribe({
         next: () => { this.saving.set(false); this.saved.emit(); },
-        error: () => this.saving.set(false),
+        error: fail,
       });
     }
   }

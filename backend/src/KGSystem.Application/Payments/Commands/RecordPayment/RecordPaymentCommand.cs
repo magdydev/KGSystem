@@ -3,7 +3,7 @@ using KGSystem.Application.Common.Interfaces;
 namespace KGSystem.Application.Payments.Commands.RecordPayment;
 
 public sealed record RecordPaymentCommand(
-    Guid EnrollmentId,
+    int EnrollmentId,
     int Month,
     int Year,
     decimal AmountDue,
@@ -12,4 +12,5 @@ public sealed record RecordPaymentCommand(
     string Method,
     string? Notes,
     string? ReceivedBy,
-    DateTime? PaidDate) : ICommand<Guid>;
+    DateTime? PaidDate,
+    decimal Discount = 0) : ICommand<int>;

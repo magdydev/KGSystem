@@ -15,7 +15,7 @@ public class RepositoryBase<TEntity>(ApplicationDbContext context) : IRepository
 
     protected DbSet<TEntity> DbSet => Context.Set<TEntity>();
 
-    public virtual Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+    public virtual Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken = default) =>
         DbSet.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
     public virtual async Task<IReadOnlyList<TEntity>> ListAllAsync(CancellationToken cancellationToken = default) =>

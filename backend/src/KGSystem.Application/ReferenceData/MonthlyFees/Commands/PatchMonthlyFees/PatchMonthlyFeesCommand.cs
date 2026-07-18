@@ -9,5 +9,5 @@ public sealed record MonthlyFeeItem(
     DateTime? DueDate);
 
 public sealed record PatchMonthlyFeesCommand(
-    Guid AcademicYearId,
+    int AcademicYearId,
     IReadOnlyList<MonthlyFeeItem> Fees) : ICommand<Unit>;

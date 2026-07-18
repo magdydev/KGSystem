@@ -1,6 +1,8 @@
 using Asp.Versioning;
+using KGSystem.Application.Common;
 using KGSystem.Application.Common.Interfaces;
 using KGSystem.Application.ReferenceData.AcademicYears.Commands.CreateAcademicYear;
+using KGSystem.Application.ReferenceData.AcademicYears.Commands.UpdateAcademicYear;
 using KGSystem.Application.ReferenceData.AcademicYears.Dtos;
 using KGSystem.Application.ReferenceData.AcademicYears.Queries.GetAllAcademicYears;
 using Microsoft.AspNetCore.Authorization;
@@ -25,11 +27,22 @@ public sealed class AcademicYearsController(IDispatcher dispatcher) : Controller
 
     [Authorize(Roles = "Manager")]
     [HttpPost]
-    [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateAcademicYearCommand command, CancellationToken cancellationToken)
     {
-        var yearId = await dispatcher.Send<Guid>(command, cancellationToken);
+        var yearId = await dispatcher.Send<int>(command, cancellationToken);
         return CreatedAtAction(nameof(GetAll), null, yearId);
+    }
+
+    [Authorize(Roles = "Manager")]
+    [HttpPut("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateAcademicYearCommand command, CancellationToken cancellationToken)
+    {
+        await dispatcher.Send<Unit>(command with { Id = id }, cancellationToken);
+        return NoContent();
     }
 }

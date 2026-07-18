@@ -7,7 +7,7 @@ namespace KGSystem.Infrastructure.Persistence.Repositories;
 
 public sealed class ChildRepository(ApplicationDbContext context) : RepositoryBase<Child>(context), IChildRepository
 {
-    public async Task<IReadOnlyList<Child>> SearchAsync(string? name, ChildStatus? status, Guid? phaseId, CancellationToken ct = default)
+    public async Task<IReadOnlyList<Child>> SearchAsync(string? name, ChildStatus? status, int? phaseId, CancellationToken ct = default)
     {
         var query = DbSet.AsNoTracking()
             .Include(c => c.Enrollments).ThenInclude(e => e.KGPhase)
@@ -52,7 +52,7 @@ public sealed class ChildRepository(ApplicationDbContext context) : RepositoryBa
             .Replace('ئ', 'ي');
     }
 
-    public async Task<Child?> GetWithEnrollmentsAsync(Guid id, CancellationToken ct = default)
+    public async Task<Child?> GetWithEnrollmentsAsync(int id, CancellationToken ct = default)
     {
         return await DbSet
             .Include(c => c.Enrollments.OrderByDescending(e => e.AcademicYear.StartDate)).ThenInclude(e => e.KGPhase)

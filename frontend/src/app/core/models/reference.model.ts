@@ -1,3 +1,6 @@
+import { Enrollment } from './enrollment.model';
+import { Payment } from './payment.model';
+
 export interface KGPhase {
   id: number;
   code: string;
@@ -56,4 +59,10 @@ export interface CreateAcademicYearRequest {
   startDate: string;
   endDate: string;
   isActive: boolean;
+}
+
+export interface ArchivedYearDetail {
+  year: AcademicYear;
+  enrollments: Enrollment[];
+  payments: Payment[];
 }

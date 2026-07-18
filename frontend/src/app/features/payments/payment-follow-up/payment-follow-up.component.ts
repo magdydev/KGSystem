@@ -1,11 +1,14 @@
 import { CurrencyPipe, UpperCasePipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
 import { PaymentService } from '../../../core/services/payment.service';
 import { EnrollmentService } from '../../../core/services/enrollment.service';
 import { ChildService } from '../../../core/services/child.service';
 import { BrandingService } from '../../../core/services/branding.service';
+import { ReferenceDataService } from '../../../core/services/reference-data.service';
+import { KGPhase } from '../../../core/models/reference.model';
 
 interface FollowUpRow {
   paymentId: number;
@@ -14,6 +17,7 @@ interface FollowUpRow {
   guardianNameAr: string;
   guardianNameEn: string;
   guardianPhone: string;
+  kgPhaseId: number;
   month: number;
   year: number;
   amountDue: number;
@@ -27,22 +31,31 @@ const ARABIC_MONTHS = ['', 'يناير', 'فبراير', 'مارس', 'إبريل
 @Component({
   selector: 'app-payment-follow-up',
   standalone: true,
-  imports: [CurrencyPipe, UpperCasePipe, TranslatePipe],
+  imports: [CurrencyPipe, UpperCasePipe, TranslatePipe, FormsModule],
   template: `
     <div class="page payment-follow-up">
       <div class="page-header">
         <h1 class="page-title">{{ 'PAYMENTS.FOLLOW_UP.TITLE' | translate }}</h1>
       </div>
 
-      <div class="card" style="margin-bottom:1rem;padding:1rem 1.25rem;display:flex;gap:2rem;flex-wrap:wrap">
-        <div><strong>{{ rows().length }}</strong> {{ 'PAYMENTS.FOLLOW_UP.OUTSTANDING_COUNT' | translate }}</div>
+      <div class="card" style="margin-bottom:1rem;padding:1rem 1.25rem;display:flex;gap:2rem;flex-wrap:wrap;align-items:center">
+        <div><strong>{{ filteredRows().length }}</strong> {{ 'PAYMENTS.FOLLOW_UP.OUTSTANDING_COUNT' | translate }}</div>
         <div><strong>{{ totalOutstanding() | currency: 'EGP' }}</strong> {{ 'PAYMENTS.FOLLOW_UP.TOTAL_OUTSTANDING' | translate }}</div>
+        <div style="margin-inline-start:auto;display:flex;align-items:center;gap:0.5rem">
+          <label for="phaseFilter" style="font-size:var(--text-sm);color:var(--color-text-muted)">{{ 'REFERENCE.PHASES.TITLE' | translate }}</label>
+          <select id="phaseFilter" class="form-control" [ngModel]="selectedPhaseId()" (ngModelChange)="selectedPhaseId.set(+$event)" style="width:auto">
+            <option [ngValue]="0">{{ 'COMMON.ALL' | translate }}</option>
+            @for (phase of phases(); track phase.id) {
+              <option [ngValue]="phase.id">{{ currentLang() === 'ar' ? phase.nameAr : phase.nameEn }}</option>
+            }
+          </select>
+        </div>
       </div>
 
       <div class="card">
         @if (loading()) {
           <div class="loading">{{ 'COMMON.LOADING' | translate }}...</div>
-        } @else if (rows().length === 0) {
+        } @else if (filteredRows().length === 0) {
           <div class="empty">{{ 'PAYMENTS.FOLLOW_UP.NO_OUTSTANDING' | translate }}</div>
         } @else {
           <table class="table">
@@ -58,7 +71,7 @@ const ARABIC_MONTHS = ['', 'يناير', 'فبراير', 'مارس', 'إبريل
               </tr>
             </thead>
             <tbody>
-              @for (row of rows(); track row.paymentId) {
+              @for (row of filteredRows(); track row.paymentId) {
                 <tr>
                   <td><span style="font-weight:500">{{ row.childNameAr }} - {{ row.childNameEn }}</span></td>
                   <td>{{ row.guardianNameAr }} / {{ row.guardianNameEn }}</td>
@@ -118,13 +131,26 @@ export class PaymentFollowUpComponent {
   private readonly enrollmentService = inject(EnrollmentService);
   private readonly childService = inject(ChildService);
   private readonly brandingService = inject(BrandingService);
+  private readonly referenceDataService = inject(ReferenceDataService);
+  private readonly translate = inject(TranslateService);
+
+  readonly currentLang = this.translate.currentLang;
 
   readonly loading = signal(true);
   readonly rows = signal<FollowUpRow[]>([]);
+  readonly phases = signal<KGPhase[]>([]);
+  readonly selectedPhaseId = signal(0);
 
-  readonly totalOutstanding = computed(() => this.rows().reduce((sum, r) => sum + r.remaining, 0));
+  readonly filteredRows = computed(() => {
+    const phaseId = this.selectedPhaseId();
+    return phaseId ? this.rows().filter(r => r.kgPhaseId === phaseId) : this.rows();
+  });
+
+  readonly totalOutstanding = computed(() => this.filteredRows().reduce((sum, r) => sum + r.remaining, 0));
 
   constructor() {
+    this.referenceDataService.getPhases().subscribe(phases => this.phases.set(phases));
+
     forkJoin({
       unpaid: this.paymentService.getAll(undefined, undefined, 'Unpaid'),
       partial: this.paymentService.getAll(undefined, undefined, 'Partial'),
@@ -146,6 +172,7 @@ export class PaymentFollowUpComponent {
               guardianNameAr: child?.guardianNameAr ?? '—',
               guardianNameEn: child?.guardianNameEn ?? '—',
               guardianPhone: child?.guardianPhone ?? '',
+              kgPhaseId: payment.kgPhaseId,
               month: payment.month,
               year: payment.year,
               amountDue: payment.amountDue,

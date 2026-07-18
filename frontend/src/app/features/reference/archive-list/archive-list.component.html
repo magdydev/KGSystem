@@ -1,0 +1,51 @@
+<div class="page archive-list">
+  <div class="page-header">
+    <h1 class="page-title">{{ 'REFERENCE.ARCHIVE.TITLE' | translate }}</h1>
+  </div>
+
+  <div class="card">
+    @if (archivedYears$ | async; as years) {
+      @if (years.length > 0) {
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{{ 'REFERENCE.ACADEMIC_YEARS.CODE' | translate }}</th>
+              <th>{{ 'REFERENCE.ACADEMIC_YEARS.NAME_AR' | translate }}</th>
+              <th>{{ 'REFERENCE.ACADEMIC_YEARS.NAME_EN' | translate }}</th>
+              <th>{{ 'REFERENCE.ACADEMIC_YEARS.START_DATE' | translate }}</th>
+              <th>{{ 'REFERENCE.ACADEMIC_YEARS.END_DATE' | translate }}</th>
+              <th>{{ 'COMMON.ACTIONS' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (year of years; track year.id) {
+              <tr>
+                <td>{{ year.code }}</td>
+                <td>{{ year.nameAr }}</td>
+                <td>{{ year.nameEn }}</td>
+                <td>{{ year.startDate | date }}</td>
+                <td>{{ year.endDate | date }}</td>
+                <td class="actions-cell">
+                  <button class="btn btn-sm" (click)="openDetail(year)">
+                    <span class="material-symbols-outlined" style="font-size:16px">visibility</span>
+                    {{ 'REFERENCE.ARCHIVE.VIEW' | translate }}
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <p class="empty">{{ 'REFERENCE.ARCHIVE.EMPTY' | translate }}</p>
+      }
+    } @else {
+      <p class="loading">{{ 'REFERENCE.ACADEMIC_YEARS.LOADING' | translate }}</p>
+    }
+  </div>
+</div>
+
+<app-modal [(open)]="detailModalOpen" [title]="viewYear() ? (viewYear()!.nameAr + ' — ' + viewYear()!.nameEn) : ''" width="800px">
+  @if (detailModalOpen() && viewYear(); as year) {
+    <app-archive-year-detail [yearId]="year.id"></app-archive-year-detail>
+  }
+</app-modal>

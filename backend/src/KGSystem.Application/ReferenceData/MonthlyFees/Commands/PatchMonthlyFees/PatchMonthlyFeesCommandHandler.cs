@@ -2,6 +2,7 @@ using KGSystem.Application.Common;
 using KGSystem.Application.Common.Exceptions;
 using KGSystem.Application.Common.Interfaces;
 using KGSystem.Domain.Entities;
+using KGSystem.Domain.Exceptions;
 using KGSystem.Domain.Repositories;
 using KGSystem.Domain.ValueObjects;
 
@@ -14,6 +15,8 @@ public sealed class PatchMonthlyFeesCommandHandler(IUnitOfWork unitOfWork) : ICo
         var year = await unitOfWork.AcademicYears.GetByIdAsync(command.AcademicYearId, cancellationToken);
         if (year is null)
             throw new NotFoundException(nameof(AcademicYear), command.AcademicYearId);
+        if (!year.IsActive)
+            throw new DomainException("Cannot modify monthly fees for an archived academic year.");
 
         var branding = await unitOfWork.Branding.GetDefaultAsync(cancellationToken);
         var currency = branding?.Currency ?? "EGP";

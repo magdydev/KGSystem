@@ -25,6 +25,7 @@ builder.Services.AddApiVersioningSupport();
 builder.Services.AddCorsForAngular(builder.Configuration);
 builder.Services.AddJwtAuthenticationScaffolding(builder.Configuration);
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 
 builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 builder.Services.AddSwaggerGen();

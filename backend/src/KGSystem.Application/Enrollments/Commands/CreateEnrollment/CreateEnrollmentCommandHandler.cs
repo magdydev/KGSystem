@@ -1,6 +1,7 @@
 using KGSystem.Application.Common.Exceptions;
 using KGSystem.Application.Common.Interfaces;
 using KGSystem.Domain.Entities;
+using KGSystem.Domain.Exceptions;
 using KGSystem.Domain.Repositories;
 
 namespace KGSystem.Application.Enrollments.Commands.CreateEnrollment;
@@ -20,6 +21,8 @@ public sealed class CreateEnrollmentCommandHandler(IUnitOfWork unitOfWork) : ICo
         var year = await unitOfWork.AcademicYears.GetByIdAsync(command.AcademicYearId, cancellationToken);
         if (year is null)
             throw new NotFoundException(nameof(AcademicYear), command.AcademicYearId);
+        if (!year.IsActive)
+            throw new DomainException("Cannot create an enrollment in an archived academic year.");
 
         var enrollment = new Enrollment(command.ChildId, command.KGPhaseId, command.AcademicYearId, command.Notes);
 

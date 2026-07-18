@@ -49,6 +49,16 @@ export const routes: Routes = [
     loadComponent: () => import('./features/reference/monthly-fee-list/monthly-fee-list.component').then(m => m.MonthlyFeeListComponent),
   },
   {
+    path: 'archive',
+    canActivate: [authGuard, () => roleGuard(['Manager'])],
+    loadComponent: () => import('./features/reference/archive-list/archive-list.component').then(m => m.ArchiveListComponent),
+  },
+  {
+    path: 'users',
+    canActivate: [authGuard, () => roleGuard(['Manager'])],
+    loadComponent: () => import('./features/users/user-list/user-list.component').then(m => m.UserListComponent),
+  },
+  {
     path: 'settings',
     canActivate: [authGuard, () => roleGuard(['Manager'])],
     loadComponent: () => import('./features/settings/settings.component').then(m => m.SettingsComponent),

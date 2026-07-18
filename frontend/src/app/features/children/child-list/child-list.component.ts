@@ -7,13 +7,14 @@ import { ChildService } from '../../../core/services/child.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { Child, ChildDetail } from '../../../core/models/child.model';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { ChildFormComponent } from '../child-form/child-form.component';
 import { ChildDetailComponent } from '../child-detail/child-detail.component';
 
 @Component({
   selector: 'app-child-list',
   standalone: true,
-  imports: [DatePipe, FormsModule, LowerCasePipe, TranslatePipe, UpperCasePipe, ModalComponent, ChildFormComponent, ChildDetailComponent],
+  imports: [DatePipe, FormsModule, LowerCasePipe, TranslatePipe, UpperCasePipe, ModalComponent, ConfirmDialogComponent, ChildFormComponent, ChildDetailComponent],
   templateUrl: './child-list.component.html',
   styleUrl: './child-list.component.scss',
 })
@@ -33,6 +34,9 @@ export class ChildListComponent {
   readonly detailModalOpen = signal(false);
   readonly editChild = signal<ChildDetail | null>(null);
   readonly viewChildId = signal<number>(0);
+
+  readonly deleteConfirmOpen = signal(false);
+  readonly childToDelete = signal<number | null>(null);
 
   private readonly searchSubject = new Subject<void>();
 
@@ -85,15 +89,21 @@ export class ChildListComponent {
     this.loadChildren();
   }
 
-  deleteChild(id: number): void {
-    if (confirm(this.translate.instant('CHILDREN.DELETE_CONFIRM'))) {
-      this.childService.delete(id).subscribe({
-        next: () => {
-          this.loadChildren();
-          this.toast.success(this.translate.instant('TOAST.CHILD_DELETED'));
-        },
-        error: () => this.toast.error(this.translate.instant('TOAST.CHILD_DELETE_ERROR')),
-      });
-    }
+  openDeleteConfirm(id: number): void {
+    this.childToDelete.set(id);
+    this.deleteConfirmOpen.set(true);
+  }
+
+  confirmDelete(): void {
+    const id = this.childToDelete();
+    if (id === null) return;
+
+    this.childService.delete(id).subscribe({
+      next: () => {
+        this.loadChildren();
+        this.toast.success(this.translate.instant('TOAST.CHILD_DELETED'));
+      },
+      error: () => this.toast.error(this.translate.instant('TOAST.CHILD_DELETE_ERROR')),
+    });
   }
 }

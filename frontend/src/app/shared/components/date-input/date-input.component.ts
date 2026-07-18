@@ -41,7 +41,13 @@ const WEEKDAYS_AR = ['أحد', 'اثن', 'ثلاث', 'أربع', 'خميس', 'ج
       </svg>
 
       @if (isOpen()) {
-        <div class="cal-popup" (click)="$event.stopPropagation()" [class.rtl]="isRtl">
+        <div
+          class="cal-popup"
+          (click)="$event.stopPropagation()"
+          [class.rtl]="isRtl"
+          [style.top.px]="popupPosition().top"
+          [style.left.px]="popupPosition().left"
+        >
           <div class="cal-header">
             <button type="button" class="cal-nav" (click)="prevMonth()">‹</button>
             <div class="cal-title" (click)="toggleYearPicker()">
@@ -161,9 +167,7 @@ const WEEKDAYS_AR = ['أحد', 'اثن', 'ثلاث', 'أربع', 'خميس', 'ج
     }
 
     .cal-popup {
-      position: absolute;
-      top: calc(100% + 6px);
-      inset-inline-start: 0;
+      position: fixed;
       z-index: 1100;
       background: linear-gradient(145deg, color-mix(in srgb, var(--color-primary) 12%, var(--color-bg-white)), color-mix(in srgb, var(--color-secondary) 6%, var(--color-bg-white)));
       border: 1.5px solid color-mix(in srgb, var(--color-primary) 30%, var(--color-border));
@@ -384,6 +388,7 @@ export class DateInputComponent implements ControlValueAccessor, OnDestroy {
   value = '';
   isOpen = signal(false);
   showYearSelector = signal(false);
+  popupPosition = signal({ top: 0, left: 0 });
   currentMonth = new Date().getMonth();
   currentYear = new Date().getFullYear();
   displayValue = '';
@@ -455,7 +460,25 @@ export class DateInputComponent implements ControlValueAccessor, OnDestroy {
         this.currentYear = d.getFullYear();
       }
     }
+    this.computePopupPosition();
     this.isOpen.set(true);
+  }
+
+  private computePopupPosition(): void {
+    const rect = this.wrapperRef().nativeElement.getBoundingClientRect();
+    const popupWidth = 282;
+    const popupHeight = 320;
+    const margin = 8;
+
+    let top = rect.bottom + 6;
+    if (top + popupHeight > window.innerHeight - margin) {
+      top = Math.max(margin, rect.top - popupHeight - 6);
+    }
+
+    let left = this.isRtl ? rect.right - popupWidth : rect.left;
+    left = Math.min(Math.max(margin, left), window.innerWidth - popupWidth - margin);
+
+    this.popupPosition.set({ top, left });
   }
 
   close(): void {

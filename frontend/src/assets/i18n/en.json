@@ -1,5 +1,7 @@
 {
   "NAV": {
+    "GROUP_GENERAL": "General",
+    "GROUP_MANAGEMENT": "Management",
     "DASHBOARD": "Dashboard",
     "CHILDREN": "Children",
     "PAYMENTS": "Payments",
@@ -9,7 +11,9 @@
     "PHASES": "KG Phases",
     "ACADEMIC_YEARS": "Academic Years",
     "MONTHLY_FEES": "Monthly Fees",
-    "SETTINGS": "Settings",
+    "ARCHIVE": "Archive",
+    "USERS": "Users",
+    "SETTINGS": "System Settings",
     "TOGGLE_MENU": "Toggle menu"
   },
   "AUTH": {
@@ -242,7 +246,8 @@
       "DESCRIPTION_EN": "Description (English)",
       "SORT_ORDER": "Sort Order",
       "LOADING": "Loading phases...",
-      "EMPTY": "No phases defined"
+      "EMPTY": "No phases defined",
+      "DELETE_CONFIRM": "Are you sure you want to delete this phase?"
     },
     "ACADEMIC_YEARS": {
       "TITLE": "Academic Years",
@@ -261,12 +266,21 @@
       "END_DATE": "End Date",
       "IS_ACTIVE": "Active",
       "ACTIVE": "Active",
-      "INACTIVE": "Inactive",
+      "INACTIVE": "Archived",
       "STATUS": "Status",
-      "ACTIVATE": "Activate",
-      "DEACTIVATE": "Deactivate",
+      "DEACTIVATE": "Archive",
+      "ARCHIVE_CONFIRM_TITLE": "Archive Academic Year",
+      "ARCHIVE_CONFIRM_MESSAGE": "This will archive the year and make it read-only — no new enrollments, payments, or fee changes can be made against it afterward. This cannot be undone from here. Continue?",
       "LOADING": "Loading academic years...",
-      "EMPTY": "No academic years defined"
+      "EMPTY": "No academic years defined",
+      "DELETE_CONFIRM": "Are you sure you want to delete this academic year?"
+    },
+    "ARCHIVE": {
+      "TITLE": "Archive",
+      "VIEW": "View",
+      "EMPTY": "No archived academic years yet",
+      "ENROLLMENTS": "Enrollments",
+      "PAYMENTS": "Payments"
     },
     "MONTHLY_FEES": {
       "TITLE": "Monthly Fees",
@@ -330,11 +344,26 @@
     "Accountant": "Accountant",
     "Manager": "Manager"
   },
+  "USERS": {
+    "TITLE": "Users",
+    "ADD": "Add User",
+    "ADD_TITLE": "Add New User",
+    "EDIT_ROLES": "Edit Roles",
+    "EDIT_ROLES_TITLE": "Edit User Roles",
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "EMAIL": "Email",
+    "ROLES": "Roles",
+    "YOU": "You",
+    "LOADING": "Loading users...",
+    "EMPTY": "No users found",
+    "DELETE_CONFIRM": "Are you sure you want to delete this user?"
+  },
   "FOOTER": {
     "COPYRIGHT": "© MagdyTech Solutions"
   },
   "SETTINGS": {
-    "TITLE": "Settings",
+    "TITLE": "System Settings",
     "APP_NAME": "Branding",
     "APP_NAME_EN": "Application Name (EN)",
     "APP_NAME_AR": "Application Name (AR)",
@@ -383,6 +412,8 @@
     "PHASE_DELETE_ERROR": "Failed to delete phase",
     "ACADEMIC_YEAR_DELETED": "Academic year deleted successfully",
     "ACADEMIC_YEAR_DELETE_ERROR": "Failed to delete academic year",
+    "USER_DELETED": "User deleted successfully",
+    "USER_DELETE_ERROR": "Failed to delete user",
     "ACADEMIC_YEAR_UPDATED": "Academic year updated successfully",
     "ACADEMIC_YEAR_UPDATE_ERROR": "Failed to update academic year"
   }

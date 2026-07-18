@@ -36,16 +36,20 @@
                   </span>
                 </td>
                 <td class="actions-cell">
-                  <button class="btn btn-sm" (click)="openEdit(year)">
-                    <span class="material-symbols-outlined" style="font-size:16px">edit</span>
-                  </button>
-                  <button class="btn btn-sm" (click)="toggleActive(year)">
-                    <span class="material-symbols-outlined" style="font-size:16px">{{ year.isActive ? 'toggle_off' : 'toggle_on' }}</span>
-                    {{ (year.isActive ? 'REFERENCE.ACADEMIC_YEARS.DEACTIVATE' : 'REFERENCE.ACADEMIC_YEARS.ACTIVATE') | translate }}
-                  </button>
-                  <button class="btn btn-sm btn-danger" (click)="deleteAcademicYear(year.id)">
-                    <span class="material-symbols-outlined" style="font-size:16px">delete</span>
-                  </button>
+                  @if (year.isActive) {
+                    <button class="btn btn-sm" (click)="openEdit(year)">
+                      <span class="material-symbols-outlined" style="font-size:16px">edit</span>
+                    </button>
+                    <button class="btn btn-sm" (click)="openArchiveConfirm(year)">
+                      <span class="material-symbols-outlined" style="font-size:16px">archive</span>
+                      {{ 'REFERENCE.ACADEMIC_YEARS.DEACTIVATE' | translate }}
+                    </button>
+                    <button class="btn btn-sm btn-danger" (click)="openDeleteConfirm(year.id)">
+                      <span class="material-symbols-outlined" style="font-size:16px">delete</span>
+                    </button>
+                  } @else {
+                    <span class="tab-empty" style="font-size:var(--text-xs)">{{ 'REFERENCE.ARCHIVE.VIEW' | translate }}: <a routerLink="/archive">{{ 'REFERENCE.ARCHIVE.TITLE' | translate }}</a></span>
+                  }
                 </td>
               </tr>
             }
@@ -65,3 +69,23 @@
     <app-academic-year-form [editYear]="editYear()" (saved)="onSaved()" (cancelled)="modalOpen.set(false)"></app-academic-year-form>
   }
 </app-modal>
+
+<app-confirm-dialog
+  [(open)]="archiveConfirmOpen"
+  [title]="'REFERENCE.ACADEMIC_YEARS.ARCHIVE_CONFIRM_TITLE' | translate"
+  [message]="'REFERENCE.ACADEMIC_YEARS.ARCHIVE_CONFIRM_MESSAGE' | translate"
+  [confirmText]="'REFERENCE.ACADEMIC_YEARS.DEACTIVATE' | translate"
+  [cancelText]="'COMMON.CANCEL' | translate"
+  variant="warning"
+  (confirmed)="confirmArchive()"
+></app-confirm-dialog>
+
+<app-confirm-dialog
+  [(open)]="deleteConfirmOpen"
+  [title]="'COMMON.DELETE' | translate"
+  [message]="'REFERENCE.ACADEMIC_YEARS.DELETE_CONFIRM' | translate"
+  [confirmText]="'COMMON.DELETE' | translate"
+  [cancelText]="'COMMON.CANCEL' | translate"
+  variant="danger"
+  (confirmed)="confirmDelete()"
+></app-confirm-dialog>

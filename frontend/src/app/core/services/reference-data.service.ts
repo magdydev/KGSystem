@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AcademicYear, CreateAcademicYearRequest, CreateKGPhaseRequest, KGPhase, MonthlyFee, PatchMonthlyFeesRequest } from '../models/reference.model';
+import { AcademicYear, ArchivedYearDetail, CreateAcademicYearRequest, CreateKGPhaseRequest, KGPhase, MonthlyFee, PatchMonthlyFeesRequest } from '../models/reference.model';
 
 @Injectable({ providedIn: 'root' })
 export class ReferenceDataService {
@@ -47,6 +47,10 @@ export class ReferenceDataService {
 
   deleteAcademicYear(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/AcademicYears/${id}`);
+  }
+
+  getArchivedYearDetail(id: number): Observable<ArchivedYearDetail> {
+    return this.http.get<ArchivedYearDetail>(`${this.baseUrl}/AcademicYears/${id}/archive`);
   }
 
   getMonthlyFees(): Observable<MonthlyFee[]> {

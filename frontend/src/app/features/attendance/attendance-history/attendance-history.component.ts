@@ -99,7 +99,7 @@ import { forkJoin, firstValueFrom } from 'rxjs';
                       <tbody>
                         @for (rec of dateGroups().get(dateKey); track rec.id) {
                           <tr>
-                            <td>{{ currentLang() === 'ar' ? rec.childNameAr : rec.childNameEn }}</td>
+                            <td>{{ rec.childNameAr }} - {{ rec.childNameEn }}</td>
                             <td>{{ 'ATTENDANCE.' + rec.status.toUpperCase() | translate }}</td>
                             <td>{{ rec.notes }}</td>
                           </tr>
@@ -127,7 +127,7 @@ import { forkJoin, firstValueFrom } from 'rxjs';
                 (blur)="onChildSearchBlur()" />
               @if (selectedChild(); as child) {
                 <div class="selected-child-tag">
-                  <span>{{ currentLang() === 'ar' ? child.fullNameAr : child.fullNameEn }}</span>
+                  <span>{{ child.fullNameAr }} - {{ child.fullNameEn }}</span>
                   <button type="button" class="clear-btn" (click)="clearSelectedChild()">&times;</button>
                 </div>
               }
@@ -135,7 +135,7 @@ import { forkJoin, firstValueFrom } from 'rxjs';
                 <div class="search-dropdown">
                   @for (c of childSearchResults(); track c.id) {
                     <div class="search-dropdown-item" [class.highlighted]="selectedChild()?.id === c.id" (mousedown)="selectChild(c)">
-                      <span>{{ currentLang() === 'ar' ? c.fullNameAr : c.fullNameEn }}</span>
+                      <span>{{ c.fullNameAr }} - {{ c.fullNameEn }}</span>
                       <small>{{ c.status }}</small>
                     </div>
                   }

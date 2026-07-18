@@ -11,5 +11,5 @@ export const roleGuard = (allowedRoles: string[]) => {
     return true;
   }
 
-  return router.parseUrl('/dashboard');
+  return router.parseUrl('/children');
 };

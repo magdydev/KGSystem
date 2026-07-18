@@ -6,6 +6,7 @@ public sealed record PaymentDto
     public int EnrollmentId { get; init; }
     public string ChildNameAr { get; init; } = string.Empty;
     public string ChildNameEn { get; init; } = string.Empty;
+    public int KGPhaseId { get; init; }
     public string KGPhaseNameAr { get; init; } = string.Empty;
     public string KGPhaseNameEn { get; init; } = string.Empty;
     public int Month { get; init; }

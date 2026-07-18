@@ -11,6 +11,7 @@ public sealed class PaymentRepository(ApplicationDbContext context) : Repository
     {
         return await DbSet.AsNoTracking()
             .Include(p => p.Enrollment).ThenInclude(e => e.Child)
+            .Include(p => p.Enrollment).ThenInclude(e => e.KGPhase)
             .ToListAsync(ct);
     }
 
@@ -26,6 +27,7 @@ public sealed class PaymentRepository(ApplicationDbContext context) : Repository
     {
         return await DbSet.AsNoTracking()
             .Include(p => p.Enrollment).ThenInclude(e => e.Child)
+            .Include(p => p.Enrollment).ThenInclude(e => e.KGPhase)
             .Where(p => p.PaidDate >= from && p.PaidDate <= to)
             .OrderByDescending(p => p.PaidDate)
             .ToListAsync(ct);
@@ -46,5 +48,15 @@ public sealed class PaymentRepository(ApplicationDbContext context) : Repository
         return await DbSet.AsNoTracking()
             .Where(p => p.Status == PaymentStatus.Unpaid || p.Status == PaymentStatus.Partial)
             .CountAsync(ct);
+    }
+
+    public async Task<IReadOnlyList<Payment>> GetByAcademicYearAsync(int academicYearId, CancellationToken ct = default)
+    {
+        return await DbSet.AsNoTracking()
+            .Include(p => p.Enrollment).ThenInclude(e => e.Child)
+            .Include(p => p.Enrollment).ThenInclude(e => e.KGPhase)
+            .Where(p => p.Enrollment.AcademicYearId == academicYearId)
+            .OrderByDescending(p => p.Year).ThenByDescending(p => p.Month)
+            .ToListAsync(ct);
     }
 }

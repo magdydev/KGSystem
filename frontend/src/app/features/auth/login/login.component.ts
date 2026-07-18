@@ -25,7 +25,8 @@ export class LoginComponent {
 
     this.authService.login({ username: this.username, password: this.password }).subscribe({
       next: () => {
-        this.router.navigate(['/dashboard']);
+        const landingRoute = this.authService.hasRole('Manager') ? '/dashboard' : '/children';
+        this.router.navigate([landingRoute]);
       },
       error: err => {
         const msg = err.error?.error;

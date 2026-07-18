@@ -1,0 +1,22 @@
+<app-modal [(open)]="open" [title]="title()" width="440px" [closeOnOverlay]="false">
+  @if (open()) {
+    <div class="confirm-dialog" [class.variant-danger]="variant() === 'danger'">
+      <div class="confirm-icon">
+        <span class="material-symbols-outlined">warning</span>
+      </div>
+      <p class="confirm-message">{{ message() }}</p>
+      <div class="confirm-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()">{{ cancelText() }}</button>
+        <button
+          type="button"
+          class="btn"
+          [class.btn-danger]="variant() === 'danger'"
+          [class.btn-primary]="variant() !== 'danger'"
+          (click)="confirm()"
+        >
+          {{ confirmText() }}
+        </button>
+      </div>
+    </div>
+  }
+</app-modal>

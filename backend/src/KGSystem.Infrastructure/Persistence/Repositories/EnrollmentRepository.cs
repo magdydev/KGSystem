@@ -26,4 +26,15 @@ public sealed class EnrollmentRepository(ApplicationDbContext context) : Reposit
             .Where(e => e.Status == EnrollmentStatus.Active && e.AcademicYear.IsActive)
             .ToListAsync(ct);
     }
+
+    public async Task<IReadOnlyList<Enrollment>> GetByAcademicYearAsync(int academicYearId, CancellationToken ct = default)
+    {
+        return await DbSet.AsNoTracking()
+            .Include(e => e.Child)
+            .Include(e => e.KGPhase)
+            .Include(e => e.AcademicYear)
+            .Where(e => e.AcademicYearId == academicYearId)
+            .OrderByDescending(e => e.EnrollmentDate)
+            .ToListAsync(ct);
+    }
 }

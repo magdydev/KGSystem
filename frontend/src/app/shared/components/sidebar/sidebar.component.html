@@ -1,20 +1,27 @@
 <nav class="sidebar" id="app-sidebar" [class.open]="layoutService.sidebarOpen()">
-  <ul class="nav-list">
-    @for (item of visibleItems(); track item.route) {
-      <li>
-        <a
-          class="nav-link"
-          [routerLink]="item.route"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' || item.route === '/payments' }"
-          (click)="layoutService.closeSidebar()"
-        >
-          <span class="material-symbols-outlined nav-icon">{{ item.icon }}</span>
-          <span class="nav-label">{{ item.label | translate }}</span>
-        </a>
-      </li>
-    }
-  </ul>
+  @for (group of visibleGroups(); track group.label) {
+    <div class="nav-group">
+      @if (group.label) {
+        <div class="nav-group-label">{{ group.label | translate }}</div>
+      }
+      <ul class="nav-list">
+        @for (item of group.items; track item.route) {
+          <li>
+            <a
+              class="nav-link"
+              [routerLink]="item.route"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' || item.route === '/payments' }"
+              (click)="layoutService.closeSidebar()"
+            >
+              <span class="material-symbols-outlined nav-icon">{{ item.icon }}</span>
+              <span class="nav-label">{{ item.label | translate }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  }
 </nav>
 @if (layoutService.sidebarOpen()) {
   <div class="sidebar-backdrop" (click)="layoutService.closeSidebar()"></div>

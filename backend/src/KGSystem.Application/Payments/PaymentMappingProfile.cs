@@ -13,6 +13,7 @@ public sealed class PaymentMappingProfile : Profile
             .ForMember(dest => dest.Method, opt => opt.MapFrom(src => src.Method.ToString()))
             .ForMember(dest => dest.ChildNameAr, opt => opt.MapFrom(src => src.Enrollment.Child.FirstNameAr + " " + src.Enrollment.Child.LastNameAr))
             .ForMember(dest => dest.ChildNameEn, opt => opt.MapFrom(src => src.Enrollment.Child.FirstNameEn + " " + src.Enrollment.Child.LastNameEn))
+            .ForMember(dest => dest.KGPhaseId, opt => opt.MapFrom(src => src.Enrollment.KGPhaseId))
             .ForMember(dest => dest.KGPhaseNameAr, opt => opt.MapFrom(src => src.Enrollment.KGPhase.NameAr))
             .ForMember(dest => dest.KGPhaseNameEn, opt => opt.MapFrom(src => src.Enrollment.KGPhase.NameEn));
     }

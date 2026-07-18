@@ -1,0 +1,73 @@
+@if (loading()) {
+  <div class="loading">{{ 'COMMON.LOADING' | translate }}...</div>
+}
+@if (detail(); as d) {
+  <nav class="tab-nav">
+    <button class="tab-btn" [class.active]="activeTab() === 'enrollments'" (click)="setActiveTab('enrollments')">
+      {{ 'REFERENCE.ARCHIVE.ENROLLMENTS' | translate }} ({{ d.enrollments.length }})
+    </button>
+    <button class="tab-btn" [class.active]="activeTab() === 'payments'" (click)="setActiveTab('payments')">
+      {{ 'REFERENCE.ARCHIVE.PAYMENTS' | translate }} ({{ d.payments.length }})
+    </button>
+  </nav>
+
+  <div class="tab-content">
+    @if (activeTab() === 'enrollments') {
+      @if (d.enrollments.length === 0) {
+        <p class="tab-empty">{{ 'CHILDREN.NO_ENROLLMENTS' | translate }}</p>
+      } @else {
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{{ 'CHILDREN.NAME' | translate }}</th>
+              <th>{{ 'CHILDREN.PHASE' | translate }}</th>
+              <th>{{ 'CHILDREN.ENROLLMENT_DATE' | translate }}</th>
+              <th>{{ 'CHILDREN.STATUS' | translate }}</th>
+              <th>{{ 'CHILDREN.NOTES' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (e of d.enrollments; track e.id) {
+              <tr>
+                <td>{{ e.childNameAr }} - {{ e.childNameEn }}</td>
+                <td>{{ e.kgPhaseNameAr }} - {{ e.kgPhaseNameEn }}</td>
+                <td>{{ e.enrollmentDate | date: 'mediumDate' }}</td>
+                <td><span class="badge badge-info">{{ 'ENROLLMENTS.' + (e.status | uppercase) | translate }}</span></td>
+                <td>{{ e.notes || '—' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    }
+
+    @if (activeTab() === 'payments') {
+      @if (d.payments.length === 0) {
+        <p class="tab-empty">{{ 'CHILDREN.NO_PAYMENTS' | translate }}</p>
+      } @else {
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{{ 'CHILDREN.NAME' | translate }}</th>
+              <th>{{ 'CHILDREN.MONTH_YEAR' | translate }}</th>
+              <th>{{ 'CHILDREN.AMOUNT_DUE' | translate }}</th>
+              <th>{{ 'CHILDREN.AMOUNT_PAID' | translate }}</th>
+              <th>{{ 'CHILDREN.STATUS' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of d.payments; track p.id) {
+              <tr>
+                <td>{{ p.childNameAr }} - {{ p.childNameEn }}</td>
+                <td>{{ p.month }}/{{ p.year }}</td>
+                <td>{{ p.amountDue | currency: 'EGP' }}</td>
+                <td>{{ p.amountPaid | currency: 'EGP' }}</td>
+                <td><span class="badge badge-info">{{ 'PAYMENTS.STATUS_' + (p.status | uppercase) | translate }}</span></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    }
+  </div>
+}

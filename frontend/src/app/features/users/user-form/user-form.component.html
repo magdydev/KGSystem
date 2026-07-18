@@ -1,0 +1,48 @@
+<form #userForm="ngForm" (ngSubmit)="save()">
+  <div style="display:flex;flex-direction:column;gap:1rem">
+    @if (!editUser()) {
+      <div class="form-row">
+        <div class="form-group">
+          <label for="username">{{ 'USERS.USERNAME' | translate }}</label>
+          <input id="username" name="username" type="text" [(ngModel)]="username" required class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="password">{{ 'USERS.PASSWORD' | translate }}</label>
+          <input id="password" name="password" type="password" [(ngModel)]="password" required minlength="6" class="form-control" />
+        </div>
+      </div>
+    } @else {
+      <div class="form-group">
+        <label>{{ 'USERS.USERNAME' | translate }}</label>
+        <input type="text" [value]="editUser()!.userName" disabled class="form-control" />
+      </div>
+    }
+
+    <div class="form-group">
+      <label>{{ 'USERS.ROLES' | translate }}</label>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;margin-top:0.25rem">
+        @for (role of availableRoles(); track role) {
+          <label style="display:flex;align-items:center;gap:0.5rem;font-weight:400">
+            <input
+              type="checkbox"
+              [checked]="selectedRoles.includes(role)"
+              (change)="toggleRole(role, $any($event.target).checked)"
+            />
+            {{ 'ROLES.' + role | translate }}
+          </label>
+        }
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid || saving() || selectedRoles.length === 0">
+        <span class="material-symbols-outlined" style="font-size:18px">save</span>
+        {{ (saving() ? 'COMMON.SAVING' : 'COMMON.SAVE') | translate }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">
+        <span class="material-symbols-outlined" style="font-size:18px">close</span>
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+    </div>
+  </div>
+</form>

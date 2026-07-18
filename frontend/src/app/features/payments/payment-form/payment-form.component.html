@@ -19,7 +19,7 @@
       <label>{{ 'PAYMENTS.MONTH' | translate }}</label>
       <select class="form-control" [(ngModel)]="month" name="month" required>
         @for (m of months; track m) {
-          <option [ngValue]="m">{{ m }}</option>
+          <option [ngValue]="m">{{ 'MONTHS.' + m | translate }}</option>
         }
       </select>
     </div>

@@ -54,7 +54,7 @@
                 <button class="btn btn-sm" (click)="openEdit(child)">
                   <span class="material-symbols-outlined" style="font-size:16px">edit</span>
                 </button>
-                <button class="btn btn-sm btn-danger" (click)="deleteChild(child.id)">
+                <button class="btn btn-sm btn-danger" (click)="openDeleteConfirm(child.id)">
                   <span class="material-symbols-outlined" style="font-size:16px">delete</span>
                 </button>
               </td>
@@ -75,3 +75,13 @@
     <app-child-detail [childId]="viewChildId()" (close)="detailModalOpen.set(false)"></app-child-detail>
   }
 </app-modal>
+
+<app-confirm-dialog
+  [(open)]="deleteConfirmOpen"
+  [title]="'COMMON.DELETE' | translate"
+  [message]="'CHILDREN.DELETE_CONFIRM' | translate"
+  [confirmText]="'COMMON.DELETE' | translate"
+  [cancelText]="'COMMON.CANCEL' | translate"
+  variant="danger"
+  (confirmed)="confirmDelete()"
+></app-confirm-dialog>

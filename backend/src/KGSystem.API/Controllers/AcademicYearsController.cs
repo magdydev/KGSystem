@@ -2,9 +2,11 @@ using Asp.Versioning;
 using KGSystem.Application.Common;
 using KGSystem.Application.Common.Interfaces;
 using KGSystem.Application.ReferenceData.AcademicYears.Commands.CreateAcademicYear;
+using KGSystem.Application.ReferenceData.AcademicYears.Commands.DeleteAcademicYear;
 using KGSystem.Application.ReferenceData.AcademicYears.Commands.UpdateAcademicYear;
 using KGSystem.Application.ReferenceData.AcademicYears.Dtos;
 using KGSystem.Application.ReferenceData.AcademicYears.Queries.GetAllAcademicYears;
+using KGSystem.Application.ReferenceData.AcademicYears.Queries.GetArchivedYearDetail;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,5 +46,26 @@ public sealed class AcademicYearsController(IDispatcher dispatcher) : Controller
     {
         await dispatcher.Send<Unit>(command with { Id = id }, cancellationToken);
         return NoContent();
+    }
+
+    [Authorize(Roles = "Manager")]
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        await dispatcher.Send<Unit>(new DeleteAcademicYearCommand(id), cancellationToken);
+        return NoContent();
+    }
+
+    [Authorize(Roles = "Manager")]
+    [HttpGet("{id:int}/archive")]
+    [ProducesResponseType(typeof(ArchivedYearDetailDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetArchivedDetail(int id, CancellationToken cancellationToken)
+    {
+        var result = await dispatcher.Send<ArchivedYearDetailDto>(new GetArchivedYearDetailQuery(id), cancellationToken);
+        return Ok(result);
     }
 }

@@ -11,7 +11,7 @@
     <select class="form-control" [ngModel]="monthFilter()" (ngModelChange)="monthFilter.set($event); onFilterChange()" style="width:auto">
       <option [ngValue]="null">{{ 'COMMON.ALL_MONTHS' | translate }}</option>
       @for (m of months; track m) {
-        <option [ngValue]="m">{{ m }}</option>
+        <option [ngValue]="m">{{ 'MONTHS.' + m | translate }}</option>
       }
     </select>
 

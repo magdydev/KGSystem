@@ -53,7 +53,7 @@ public sealed class AcademicYear : BaseEntity, IAggregateRoot
         IsActive = true;
     }
 
-    public void Deactivate()
+    public void Archive()
     {
         IsActive = false;
     }

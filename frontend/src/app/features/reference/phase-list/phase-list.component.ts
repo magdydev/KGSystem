@@ -6,12 +6,13 @@ import { KGPhase } from '../../../core/models/reference.model';
 import { ReferenceDataService } from '../../../core/services/reference-data.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { PhaseFormComponent } from '../phase-form/phase-form.component';
 
 @Component({
   selector: 'app-phase-list',
   standalone: true,
-  imports: [AsyncPipe, TranslatePipe, ModalComponent, PhaseFormComponent],
+  imports: [AsyncPipe, TranslatePipe, ModalComponent, ConfirmDialogComponent, PhaseFormComponent],
   templateUrl: './phase-list.component.html',
   styleUrl: './phase-list.component.scss',
 })
@@ -24,6 +25,9 @@ export class PhaseListComponent {
 
   readonly modalOpen = signal(false);
   readonly editPhase = signal<KGPhase | null>(null);
+
+  readonly deleteConfirmOpen = signal(false);
+  readonly phaseToDelete = signal<number | null>(null);
 
   get modalTitle(): string {
     return this.editPhase() ? 'REFERENCE.PHASES.EDIT_TITLE' : 'REFERENCE.PHASES.ADD_TITLE';
@@ -44,15 +48,21 @@ export class PhaseListComponent {
     this.phases$ = this.referenceDataService.getPhases();
   }
 
-  deletePhase(id: number): void {
-    if (confirm('Are you sure you want to delete this phase?')) {
-      this.referenceDataService.deletePhase(id).subscribe({
-        next: () => {
-          this.phases$ = this.referenceDataService.getPhases();
-          this.toast.success(this.translate.instant('TOAST.PHASE_DELETED'));
-        },
-        error: () => this.toast.error(this.translate.instant('TOAST.PHASE_DELETE_ERROR')),
-      });
-    }
+  openDeleteConfirm(id: number): void {
+    this.phaseToDelete.set(id);
+    this.deleteConfirmOpen.set(true);
+  }
+
+  confirmDelete(): void {
+    const id = this.phaseToDelete();
+    if (id === null) return;
+
+    this.referenceDataService.deletePhase(id).subscribe({
+      next: () => {
+        this.phases$ = this.referenceDataService.getPhases();
+        this.toast.success(this.translate.instant('TOAST.PHASE_DELETED'));
+      },
+      error: () => this.toast.error(this.translate.instant('TOAST.PHASE_DELETE_ERROR')),
+    });
   }
 }

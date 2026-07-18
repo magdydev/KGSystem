@@ -1,0 +1,71 @@
+<div class="page user-list">
+  <div class="page-header">
+    <h1 class="page-title">{{ 'USERS.TITLE' | translate }}</h1>
+    <button class="btn btn-primary" (click)="openAdd()">
+      <span class="material-symbols-outlined">add</span>
+      {{ 'USERS.ADD' | translate }}
+    </button>
+  </div>
+
+  <div class="card">
+    @if (loading()) {
+      <p class="loading">{{ 'USERS.LOADING' | translate }}</p>
+    } @else if (users().length > 0) {
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{ 'USERS.USERNAME' | translate }}</th>
+            <th>{{ 'USERS.EMAIL' | translate }}</th>
+            <th>{{ 'USERS.ROLES' | translate }}</th>
+            <th>{{ 'COMMON.ACTIONS' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users(); track user.id) {
+            <tr>
+              <td>
+                <span style="font-weight:500">{{ user.userName }}</span>
+                @if (isCurrentUser(user)) {
+                  <span class="badge badge-info" style="margin-inline-start:0.4rem">{{ 'USERS.YOU' | translate }}</span>
+                }
+              </td>
+              <td>{{ user.email }}</td>
+              <td>
+                @for (role of user.roles; track role) {
+                  <span class="badge badge-success" style="margin-inline-end:0.25rem">{{ 'ROLES.' + role | translate }}</span>
+                }
+              </td>
+              <td class="actions-cell">
+                <button class="btn btn-sm" (click)="openEditRoles(user)">
+                  <span class="material-symbols-outlined" style="font-size:16px">edit</span>
+                  {{ 'USERS.EDIT_ROLES' | translate }}
+                </button>
+                <button class="btn btn-sm btn-danger" [disabled]="isCurrentUser(user)" (click)="openDeleteConfirm(user)">
+                  <span class="material-symbols-outlined" style="font-size:16px">delete</span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <p class="empty">{{ 'USERS.EMPTY' | translate }}</p>
+    }
+  </div>
+</div>
+
+<app-modal [(open)]="modalOpen" [title]="modalTitle | translate">
+  @if (modalOpen()) {
+    <app-user-form [editUser]="editUser()" (saved)="onSaved()" (cancelled)="modalOpen.set(false)"></app-user-form>
+  }
+</app-modal>
+
+<app-confirm-dialog
+  [(open)]="deleteConfirmOpen"
+  [title]="'COMMON.DELETE' | translate"
+  [message]="'USERS.DELETE_CONFIRM' | translate"
+  [confirmText]="'COMMON.DELETE' | translate"
+  [cancelText]="'COMMON.CANCEL' | translate"
+  variant="danger"
+  (confirmed)="confirmDelete()"
+></app-confirm-dialog>

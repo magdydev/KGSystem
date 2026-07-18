@@ -3,6 +3,7 @@ export interface Payment {
   enrollmentId: number;
   childNameAr: string;
   childNameEn: string;
+  kgPhaseId: number;
   kgPhaseNameAr: string;
   kgPhaseNameEn: string;
   month: number;

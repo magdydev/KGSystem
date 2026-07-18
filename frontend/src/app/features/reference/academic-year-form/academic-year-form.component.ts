@@ -30,6 +30,7 @@ export class AcademicYearFormComponent implements OnInit {
   startDate = '';
   endDate = '';
   isActive = false;
+  isArchivedYear = false;
 
   ngOnInit(): void {
     const year = this.editYear();
@@ -40,6 +41,7 @@ export class AcademicYearFormComponent implements OnInit {
       this.startDate = year.startDate;
       this.endDate = year.endDate;
       this.isActive = year.isActive;
+      this.isArchivedYear = !year.isActive;
     }
   }
 
